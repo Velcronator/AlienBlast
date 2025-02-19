@@ -7,54 +7,97 @@ public class Player : MonoBehaviour
     [SerializeField] float _jumpVelocity = 5;
     [SerializeField] float _jumpDuration = 0.5f;
     [SerializeField] Sprite _jumpSprite;
+    [SerializeField] LayerMask _layerMask;
+    [SerializeField] float _footOffset = 0.5f;
+    [SerializeField] int _jumpsAllowed = 2;
+
+    int _jumpsRemaining;
     public bool IsGrounded;
     SpriteRenderer _spriteRenderer;
-    Sprite _defaultSprite;
+    Collider2D _collider;
+    Rigidbody2D _rb;
     float _horizontal;
     Animator animator;
+    AudioSource _audioSource;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _defaultSprite = _spriteRenderer.sprite;
+        _collider = GetComponent<Collider2D>();
+        _audioSource = GetComponent<AudioSource>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
-    void OnDrawGizmos()
-    {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y - spriteRenderer.bounds.extents.y);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+
+    //    Vector2 origin = new Vector2(transform.position.x, transform.position.y - _collider.bounds.extents.y);
+    //    Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+
+    //    // Draw Left Foot
+    //    origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _collider.bounds.extents.y);
+    //    Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+
+    //    // Draw Right Foot
+    //    origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _collider.bounds.extents.y);
+    //    Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
-        var hit = Physics2D.Raycast(origin, Vector2.down, 0.1f);
-        if (hit.collider)
-            IsGrounded = true;
-        else
-            IsGrounded = false;
+        UpdateGrounding();
 
         _horizontal = Input.GetAxis("Horizontal");
-        Debug.Log(_horizontal);
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        var vertical = rb.linearVelocity.y;
+        var vertical = _rb.linearVelocity.y;
 
-        if (Input.GetButtonDown("Fire1") && IsGrounded)
+        if (Input.GetButtonDown("Fire1") && _jumpsRemaining > 0)
+        {
             _jumpEndTime = Time.time + _jumpDuration;
+            _jumpsRemaining--;
+
+            _audioSource.pitch = _jumpsRemaining > 0 ? 1f : 1.1f;
+
+            _audioSource.Play();
+        }
 
         if (Input.GetButton("Fire1") && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
         _horizontal *= _horizontalVelocity;
-        rb.linearVelocity = new Vector2(_horizontal, vertical);
+        _rb.linearVelocity = new Vector2(_horizontal, vertical);
         UpdateSprite();
     }
 
-    private void UpdateSprite()
+    void UpdateGrounding()
+    {
+        IsGrounded = false;
+
+        // Check Center
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _collider.bounds.extents.y);
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
+        if (hit.collider)
+            IsGrounded = true;
+
+        // Check Left Foot
+        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _collider.bounds.extents.y);
+        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
+        if (hit.collider)
+            IsGrounded = true;
+
+        // Check Right Foot
+        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _collider.bounds.extents.y);
+        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
+        if (hit.collider)
+            IsGrounded = true;
+
+        if (IsGrounded && _rb.linearVelocity.y <= 0)
+            _jumpsRemaining = _jumpsAllowed;
+    }
+
+    void UpdateSprite()
     {
         animator.SetBool("IsGrounded", IsGrounded);
         animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
