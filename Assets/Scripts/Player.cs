@@ -2,30 +2,66 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float _jumpEndTime;
-    [SerializeField] private float _jumpVelocity = 5;
-    [SerializeField] private float _jumpDuration = 0.5f;
+    float _jumpEndTime;
+    [SerializeField] float _horizontalVelocity = 3;
+    [SerializeField] float _jumpVelocity = 5;
+    [SerializeField] float _jumpDuration = 0.5f;
+    [SerializeField] Sprite _jumpSprite;
+    public bool IsGrounded;
+    SpriteRenderer _spriteRenderer;
+    Sprite _defaultSprite;
+    private float _horizontal;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultSprite = _spriteRenderer.sprite;
+    }
 
+    void OnDrawGizmos()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - spriteRenderer.bounds.extents.y);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        var horizontal = Input.GetAxis("Horizontal");
-        Debug.Log(horizontal);
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
+        var hit = Physics2D.Raycast(origin, Vector2.down, 0.1f);
+        if (hit.collider)
+            IsGrounded = true;
+        else
+            IsGrounded = false;
+
+        _horizontal = Input.GetAxis("Horizontal");
+        Debug.Log(_horizontal);
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         var vertical = rb.linearVelocity.y;
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && IsGrounded)
             _jumpEndTime = Time.time + _jumpDuration;
 
         if (Input.GetButton("Fire1") && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
-        rb.linearVelocity = new Vector2(horizontal, vertical);
+        _horizontal *= _horizontalVelocity;
+        rb.linearVelocity = new Vector2(_horizontal, vertical);
+        UpdateSprite();
+    }
+
+    private void UpdateSprite()
+    {
+        if (IsGrounded)
+            _spriteRenderer.sprite = _defaultSprite;
+        else
+            _spriteRenderer.sprite = _jumpSprite;
+
+        if (_horizontal > 0)
+            _spriteRenderer.flipX = false;
+        else if (_horizontal < 0)
+            _spriteRenderer.flipX = true;
     }
 }
