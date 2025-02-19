@@ -10,10 +10,12 @@ public class Player : MonoBehaviour
     public bool IsGrounded;
     SpriteRenderer _spriteRenderer;
     Sprite _defaultSprite;
-    private float _horizontal;
+    float _horizontal;
+    Animator animator;
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _defaultSprite = _spriteRenderer.sprite;
     }
@@ -54,10 +56,8 @@ public class Player : MonoBehaviour
 
     private void UpdateSprite()
     {
-        if (IsGrounded)
-            _spriteRenderer.sprite = _defaultSprite;
-        else
-            _spriteRenderer.sprite = _jumpSprite;
+        animator.SetBool("IsGrounded", IsGrounded);
+        animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
 
         if (_horizontal > 0)
             _spriteRenderer.flipX = false;

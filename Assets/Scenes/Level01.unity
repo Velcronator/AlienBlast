@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 983291861}
   - component: {fileID: 983291862}
   m_Layer: 0
-  m_Name: Player Idle 48x48_0
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
