@@ -29,21 +29,24 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
+    void OnDrawGizmos()
+    {
+        if (_collider == null)
+            _collider = GetComponent<Collider2D>();
 
-    //    Vector2 origin = new Vector2(transform.position.x, transform.position.y - _collider.bounds.extents.y);
-    //    Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+        Gizmos.color = Color.red;
 
-    //    // Draw Left Foot
-    //    origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _collider.bounds.extents.y);
-    //    Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _collider.bounds.extents.y);
+        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
 
-    //    // Draw Right Foot
-    //    origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _collider.bounds.extents.y);
-    //    Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
-    //}
+        // Draw Left Foot
+        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _collider.bounds.extents.y);
+        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+
+        // Draw Right Foot
+        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _collider.bounds.extents.y);
+        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+    }
 
     // Update is called once per frame
     void Update()
