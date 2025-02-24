@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    float _jumpEndTime;
     [SerializeField] float _horizontalVelocity = 3;
     [SerializeField] float _jumpVelocity = 5;
     [SerializeField] float _jumpDuration = 0.5f;
@@ -11,18 +10,21 @@ public class Player : MonoBehaviour
     [SerializeField] float _footOffset = 0.5f;
     [SerializeField] int _jumpsAllowed = 2;
 
-    int _jumpsRemaining;
     public bool IsGrounded;
+
+    AudioSource _audioSource;
+    Animator _animator;
     SpriteRenderer _spriteRenderer;
     Collider2D _collider;
     Rigidbody2D _rb;
+
+    float _jumpEndTime;
     float _horizontal;
-    Animator animator;
-    AudioSource _audioSource;
+    int _jumpsRemaining;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<Collider2D>();
         _audioSource = GetComponent<AudioSource>();
@@ -102,8 +104,8 @@ public class Player : MonoBehaviour
 
     void UpdateSprite()
     {
-        animator.SetBool("IsGrounded", IsGrounded);
-        animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
+        _animator.SetBool("IsGrounded", IsGrounded);
+        _animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
 
         if (_horizontal > 0)
             _spriteRenderer.flipX = false;

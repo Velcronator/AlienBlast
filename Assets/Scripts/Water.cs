@@ -6,17 +6,25 @@ public class Water : MonoBehaviour
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
+        if (!TryGetComponent(out _audioSource))
+        {
+            Debug.LogWarning("No AudioSource component found on this GameObject.");
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        _audioSource.Play();
+        if (_audioSource != null)
+        {
+            _audioSource.Play();
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        _audioSource.Stop();
+        if (_audioSource != null)
+        {
+            _audioSource.Stop();
+        }
     }
-
 }
