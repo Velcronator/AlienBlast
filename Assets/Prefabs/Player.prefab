@@ -310,6 +310,7 @@ MonoBehaviour:
   _jumpsAllowed: 2
   _groundAcceleration: 20
   _snowAcceleration: 0.5
+  _coinSFX: {fileID: 8300000, guid: d20a43c22de7d9d4197cd115b63a88d8, type: 3}
   IsGrounded: 0
   IsOnSnow: 0
 --- !u!114 &6138777861049718877

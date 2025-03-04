@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] int _jumpsAllowed = 2;
     [SerializeField] float _groundAcceleration = 10f;
     [SerializeField] float _snowAcceleration = 1f;
+    [SerializeField] AudioClip _coinSFX;
 
 
     public bool IsGrounded;
@@ -27,7 +28,8 @@ public class Player : MonoBehaviour
     float _jumpEndTime;
     float _horizontal;
     int _jumpsRemaining;
-    int _coins;
+
+    public int Coins { get; private set; }
 
     private void Awake()
     {
@@ -37,6 +39,8 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
+        // todo : this is not performant way to do this
+        FindFirstObjectByType<PlayerCanvas>().Bind(this);
     }
 
     void OnDrawGizmos()
@@ -136,6 +140,7 @@ public class Player : MonoBehaviour
 
     public void CollectCoin()
     {
-        _coins++;
+        Coins++;
+        _audioSource.PlayOneShot(_coinSFX);
     }
 }
