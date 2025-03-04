@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -21,10 +23,11 @@ public class Player : MonoBehaviour
     SpriteRenderer _spriteRenderer;
     Collider2D _collider;
     Rigidbody2D _rb;
-
+    PlayerInput _playerInput;
     float _jumpEndTime;
     float _horizontal;
     int _jumpsRemaining;
+    int _coins;
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour
         _collider = GetComponent<Collider2D>();
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     void OnDrawGizmos()
@@ -59,10 +63,10 @@ public class Player : MonoBehaviour
     {
         UpdateGrounding();
 
-        var _horizontalInput = Input.GetAxis("Horizontal");
+        var _horizontalInput = _playerInput.actions["Move"].ReadValue<Vector2>().x;
         var vertical = _rb.linearVelocity.y;
 
-        if (Input.GetButtonDown("Fire1") && _jumpsRemaining > 0)
+        if (_playerInput.actions["Jump"].WasPerformedThisFrame() && _jumpsRemaining > 0)
         {
             _jumpEndTime = Time.time + _jumpDuration;
             _jumpsRemaining--;
@@ -72,7 +76,7 @@ public class Player : MonoBehaviour
             _audioSource.Play();
         }
 
-        if (Input.GetButton("Fire1") && _jumpEndTime > Time.time)
+        if (_playerInput.actions["Jump"].ReadValue<float>() > 0 && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
         var vesiredHorizontal = _horizontalInput * _maxHorizontalSpeed;
@@ -128,5 +132,10 @@ public class Player : MonoBehaviour
             _spriteRenderer.flipX = false;
         else if (_horizontal < 0)
             _spriteRenderer.flipX = true;
+    }
+
+    public void CollectCoin()
+    {
+        _coins++;
     }
 }
