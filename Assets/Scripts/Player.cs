@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +28,9 @@ public class Player : MonoBehaviour
     float _horizontal;
     int _jumpsRemaining;
 
-    public int Coins { get; private set; }
+    PlayerData _playerData = new PlayerData();
+
+    public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
 
     private void Awake()
     {
@@ -142,5 +143,10 @@ public class Player : MonoBehaviour
     {
         Coins++;
         _audioSource.PlayOneShot(_coinSFX);
+    }
+
+    public void Bind(PlayerData playerData)
+    {
+        _playerData = playerData;
     }
 }
