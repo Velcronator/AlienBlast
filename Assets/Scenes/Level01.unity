@@ -2312,10 +2312,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
-      propertyPath: _hurtSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 1872df628a7794848a58cdbb9a4d98d6, type: 3}
     - target: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: m_Name
       value: Player
