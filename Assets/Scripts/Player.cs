@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Player : MonoBehaviour
     [SerializeField] float _groundAcceleration = 10f;
     [SerializeField] float _snowAcceleration = 1f;
     [SerializeField] AudioClip _coinSFX;
+    [SerializeField] AudioClip _hurtSFX;
+    [SerializeField] float _knockbackVelocity = 200f;
 
 
     public bool IsGrounded;
@@ -148,5 +151,17 @@ public class Player : MonoBehaviour
     public void Bind(PlayerData playerData)
     {
         _playerData = playerData;
+    }
+    
+    public void TakeDamage(Vector2 hitNormal)   
+    {
+        _playerData.Health--;
+        _audioSource.PlayOneShot(_hurtSFX);
+        if (_playerData.Health <= 0)
+        {
+            SceneManager.LoadScene(0);
+            return;
+        }
+        _rb.AddForce(-hitNormal * _knockbackVelocity);
     }
 }
