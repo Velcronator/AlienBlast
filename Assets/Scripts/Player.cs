@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -33,7 +34,11 @@ public class Player : MonoBehaviour
 
     PlayerData _playerData = new PlayerData();
 
+    public event Action CoinsChanged;
+    public event Action HealthChanged;
+
     public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
+    public int Health { get => _playerData.Health; }
 
     private void Awake()
     {
@@ -145,17 +150,19 @@ public class Player : MonoBehaviour
     public void CollectCoin()
     {
         Coins++;
+        CoinsChanged?.Invoke();
         _audioSource.PlayOneShot(_coinSFX);
     }
 
     public void Bind(PlayerData playerData)
     {
-        _playerData = playerData;
+        _playerData =  playerData;
     }
     
     public void TakeDamage(Vector2 hitNormal)   
     {
         _playerData.Health--;
+        HealthChanged?.Invoke();
         _audioSource.PlayOneShot(_hurtSFX);
         if (_playerData.Health <= 0)
         {
