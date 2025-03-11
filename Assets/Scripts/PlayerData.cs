@@ -3,6 +3,6 @@
 [Serializable]
 public class PlayerData
 {
-    public int Coins { get; set; }
-    public int Health { get; set; } = 6;
+    public int Coins;
+    public int Health = 6;
 }

@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
         // todo : this is not performant way to do this
+
+
         FindFirstObjectByType<PlayerCanvas>().Bind(this);
     }
 
