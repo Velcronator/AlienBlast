@@ -173,4 +173,9 @@ public class Player : MonoBehaviour
         }
         _rb.AddForce(-hitNormal * _knockbackVelocity);
     }
+
+    public void StopJump()
+    {
+        _jumpEndTime = Time.time;
+    }
 }
