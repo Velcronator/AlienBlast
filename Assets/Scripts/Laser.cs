@@ -31,11 +31,10 @@ public class Laser : MonoBehaviour
         if (firstThing.collider)
         {
             endPoint = firstThing.point;
-            var brick = firstThing.collider.GetComponent<Brick>();
-            if (brick)
-            {
-                brick.TakeLaserDamage();
-            }
+
+            var laserDamageable = firstThing.collider.GetComponent<ITakeLaserDamage>();
+            if (laserDamageable != null) // the null check is necessary for the case where the object hit by the laser is not ITakeLaserDamage
+                laserDamageable.TakeLaserDamage();
         }
         _lineRenderer.SetPosition(1, endPoint);
     }
