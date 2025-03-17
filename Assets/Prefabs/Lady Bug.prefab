@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3748201962119391309}
   - component: {fileID: 8517129345396849674}
   - component: {fileID: 1103528520046274076}
+  - component: {fileID: 5845187211531864027}
   m_Layer: 0
   m_Name: Lady Bug
   m_TagString: Untagged
@@ -191,3 +192,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _raycastDistance: 0.5
+  _forwardRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
+--- !u!114 &5845187211531864027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286402051236588242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6411b268a6d92fe4e9b4fd0883e49cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

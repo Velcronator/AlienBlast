@@ -6,13 +6,13 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage
 {
     [SerializeField] float _speed = 1f;
     [SerializeField] float _raycastDistance = 0.2f;
+    [SerializeField] LayerMask _forwardRaycastLayerMask;
 
     Vector2 _direction = Vector2.left;
 
     SpriteRenderer _spriteRenderer;
     Collider2D _collider;
     Rigidbody2D _rigidbody;
-
 
     void Awake()
     {
@@ -52,29 +52,19 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage
 
     void Update()
     {
+        CheckGroundInFront();
+        CheckInFront();
+
+        _rigidbody.linearVelocity = new Vector2(_direction.x * _speed, _rigidbody.linearVelocity.y);
+    }
+
+    private void CheckInFront()
+    {
         Vector2 offset = _direction * _collider.bounds.extents.x;
         Vector2 origin = (Vector2)transform.position + offset;
 
-        bool canContinueWalking = false;
-        var downOrigin = GetDownRayPosition(_collider);
-        var downHits = Physics2D.RaycastAll(downOrigin, Vector2.down, _raycastDistance);
-        foreach (var hit in downHits)
-        {
-            if (hit.collider != null && hit.collider.gameObject != gameObject)
-            {
-                canContinueWalking = true;
-                break;
-            }
-        }
 
-        if (canContinueWalking == false)
-        {
-            _direction *= -1;
-            _spriteRenderer.flipX = _direction == Vector2.right;
-            return;
-        }
-
-        var hits = Physics2D.RaycastAll(origin, _direction, _raycastDistance);
+        var hits = Physics2D.RaycastAll(origin, _direction, _raycastDistance, _forwardRaycastLayerMask);
         foreach (var hit in hits)
         {
             if (hit.collider != null && hit.collider.gameObject != gameObject)
@@ -84,8 +74,25 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage
                 break;
             }
         }
+    }
 
-        _rigidbody.linearVelocity = new Vector2(_direction.x * _speed, _rigidbody.linearVelocity.y);
+    private void CheckGroundInFront()
+    {
+        bool canContinueWalking = false;
+        var downOrigin = GetDownRayPosition(_collider);
+        var downHits = Physics2D.RaycastAll(downOrigin, Vector2.down, _raycastDistance);
+        foreach (var hit in downHits)
+        {
+            if (hit.collider != null && hit.collider.gameObject != gameObject)
+                canContinueWalking = true;
+        }
+
+        if (canContinueWalking == false)
+        {
+            _direction *= -1;
+            _spriteRenderer.flipX = _direction == Vector2.right;
+            return;
+        }
     }
 
     public void TakeLaserDamage()
