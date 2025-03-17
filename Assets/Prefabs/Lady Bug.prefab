@@ -190,4 +190,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
-  _raycastDistance: 0.2
+  _raycastDistance: 0.5

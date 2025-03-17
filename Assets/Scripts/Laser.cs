@@ -4,6 +4,7 @@ public class Laser : MonoBehaviour
 {
     [SerializeField] Vector2 _direction = Vector2.left;
     [SerializeField] float _distance = 10f;
+    [SerializeField] SpriteRenderer _laserBurst;
 
     [SerializeField] LineRenderer _lineRenderer;
     bool _isOn;
@@ -23,7 +24,10 @@ public class Laser : MonoBehaviour
     void Update()
     {
         if (_isOn == false)
+        {
+            _laserBurst.enabled = false;
             return;
+        }
 
         var endPoint = (Vector2)transform.position + (_direction * _distance);
 
@@ -32,9 +36,17 @@ public class Laser : MonoBehaviour
         {
             endPoint = firstThing.point;
 
+            _laserBurst.enabled = true;
+            _laserBurst.transform.position = endPoint;
+            _laserBurst.transform.localScale = Vector3.one * (0.5f + Mathf.PingPong(Time.time, 1f));
+
             var laserDamageable = firstThing.collider.GetComponent<ITakeLaserDamage>();
-            if (laserDamageable != null) // the null check is necessary for the case where the object hit by the laser is not ITakeLaserDamage
+            if (laserDamageable != null)
                 laserDamageable.TakeLaserDamage();
+        }
+        else
+        {
+            _laserBurst.enabled = false;
         }
         _lineRenderer.SetPosition(1, endPoint);
     }
