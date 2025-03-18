@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2600923842254237776}
   - component: {fileID: 5509867984486066323}
   - component: {fileID: 6138777861049718877}
+  - component: {fileID: 2486805186356472801}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -323,6 +324,51 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3879782436892296926}
+--- !u!114 &2486805186356472801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806510465363911385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd0d95942d2fd84081eccfa48564a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blasterShotPrefab: {fileID: 6353317866974508711, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
+  _blasterShotSpawnPoint: {fileID: 5578409368089635303}
+--- !u!1 &6331046609269937085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5578409368089635303}
+  m_Layer: 0
+  m_Name: Fire Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5578409368089635303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6331046609269937085}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.593, y: 0.135, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 921978340735199616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6464412244189224314
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,9 +712,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1776174814450263652, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5578409368089635303}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+--- !u!4 &921978340735199616 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1776174814450263652, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+  m_PrefabInstance: {fileID: 1472039360473698276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3394640524218454299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4283367920542834431, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}

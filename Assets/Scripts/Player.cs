@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
 
     AudioSource _audioSource;
     Animator _animator;
-    SpriteRenderer _spriteRenderer;
     Collider2D _collider;
     Rigidbody2D _rb;
     PlayerInput _playerInput;
@@ -39,11 +38,11 @@ public class Player : MonoBehaviour
 
     public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
     public int Health { get => _playerData.Health; }
+    public Vector2 Direction { get; private set; } = Vector2.right;
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<Collider2D>();
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody2D>();
@@ -111,7 +110,8 @@ public class Player : MonoBehaviour
         }
 
         _rb.linearVelocity = new Vector2(_horizontal, vertical);
-        UpdateSpriteAndAnimation();
+        UpdateAnimation();
+        UpdateDirection();
     }
 
     void UpdateGrounding()
@@ -150,15 +150,24 @@ public class Player : MonoBehaviour
             _jumpsRemaining = _jumpsAllowed;
     }
 
-    void UpdateSpriteAndAnimation()
+    void UpdateAnimation()
     {
         _animator.SetBool("Jump", !IsGrounded);
         _animator.SetBool("Move", _horizontal != 0);
+    }
 
+    void UpdateDirection()
+    {
         if (_horizontal > 0)
+        {
             _animator.transform.rotation = Quaternion.identity;
+            Direction = Vector2.right;
+        }
         else if (_horizontal < 0)
-            _animator.transform.rotation = Quaternion.Euler(0,180,0);
+        {
+            _animator.transform.rotation = Quaternion.Euler(0, 180, 0);
+            Direction = Vector2.left;
+        }
     }
 
     public void CollectCoin()

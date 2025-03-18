@@ -3012,6 +3012,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2486805186356472801, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: _blasterShotPrefab
+      value: 
+      objectReference: {fileID: 4294180677684561684, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
     - target: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3059,29 +3063,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4666624846131745144}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
---- !u!1 &4666624846131745143 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
-  m_PrefabInstance: {fileID: 4666624846131745142}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4666624846131745144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4666624846131745143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbd0d95942d2fd84081eccfa48564a38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _blasterShotPrefab: {fileID: 4391780747385159325, guid: 812b6cdd514bbf94a8c39020f90f4194, type: 3}
 --- !u!1001 &5470600340632337628
 PrefabInstance:
   m_ObjectHideFlags: 0
