@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<Collider2D>();
         _audioSource = GetComponent<AudioSource>();
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
 
         _horizontal = Mathf.Lerp(_horizontal, vesiredHorizontal, Time.deltaTime * acceleration);
         _rb.linearVelocity = new Vector2(_horizontal, vertical);
-        UpdateSprite();
+        UpdateSpriteAndAnimation();
     }
 
     void UpdateGrounding()
@@ -138,9 +138,11 @@ public class Player : MonoBehaviour
             _jumpsRemaining = _jumpsAllowed;
     }
 
-    void UpdateSprite()
+    void UpdateSpriteAndAnimation()
     {
-        _animator.SetBool("IsGrounded", IsGrounded);
+        _animator.SetBool("Jump", !IsGrounded);
+        _animator.SetBool("Move", _horizontal != 0);
+
         _animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
 
         if (_horizontal > 0)
