@@ -94,10 +94,22 @@ public class Player : MonoBehaviour
         if (_playerInput.actions["Jump"].ReadValue<float>() > 0 && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
-        var vesiredHorizontal = _horizontalInput * _maxHorizontalSpeed;
+        var desiredHorizontal = _horizontalInput * _maxHorizontalSpeed;
         var acceleration = IsOnSnow ? _snowAcceleration : _groundAcceleration;
 
-        _horizontal = Mathf.Lerp(_horizontal, vesiredHorizontal, Time.deltaTime * acceleration);
+        if (desiredHorizontal > _horizontal)
+        {
+            _horizontal += acceleration * Time.deltaTime;
+            if (_horizontal > desiredHorizontal)
+                _horizontal = desiredHorizontal;
+        }
+        else if (desiredHorizontal < _horizontal)
+        {
+            _horizontal -= acceleration * Time.deltaTime;
+            if (_horizontal < desiredHorizontal)
+                _horizontal = desiredHorizontal;
+        }
+
         _rb.linearVelocity = new Vector2(_horizontal, vertical);
         UpdateSpriteAndAnimation();
     }
@@ -143,12 +155,10 @@ public class Player : MonoBehaviour
         _animator.SetBool("Jump", !IsGrounded);
         _animator.SetBool("Move", _horizontal != 0);
 
-        _animator.SetFloat("HorizontalSpeed", Mathf.Abs(_horizontal));
-
         if (_horizontal > 0)
-            _spriteRenderer.flipX = false;
+            _animator.transform.rotation = Quaternion.identity;
         else if (_horizontal < 0)
-            _spriteRenderer.flipX = true;
+            _animator.transform.rotation = Quaternion.Euler(0,180,0);
     }
 
     public void CollectCoin()

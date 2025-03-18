@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6802735896486608792}
   - component: {fileID: 1681111857056542560}
   - component: {fileID: 2600923842254237776}
-  - component: {fileID: 8799230155076383608}
   - component: {fileID: 5509867984486066323}
   - component: {fileID: 6138777861049718877}
   m_Layer: 6
@@ -266,28 +265,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &8799230155076383608
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5806510465363911385}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1bbc5d22530fdc447aa3c159f35e7de8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5509867984486066323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +286,7 @@ MonoBehaviour:
     m_Bits: 55
   _footOffset: 0.5
   _jumpsAllowed: 2
-  _groundAcceleration: 20
+  _groundAcceleration: 30
   _snowAcceleration: 0.5
   _coinSFX: {fileID: 8300000, guid: d20a43c22de7d9d4197cd115b63a88d8, type: 3}
   _hurtSFX: {fileID: 8300000, guid: 1872df628a7794848a58cdbb9a4d98d6, type: 3}
