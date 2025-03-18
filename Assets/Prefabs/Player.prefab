@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd0d95942d2fd84081eccfa48564a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blasterShotPrefab: {fileID: 6353317866974508711, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
+  _blasterShotPrefab: {fileID: 4294180677684561684, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
   _blasterShotSpawnPoint: {fileID: 5578409368089635303}
 --- !u!1 &6331046609269937085
 GameObject:

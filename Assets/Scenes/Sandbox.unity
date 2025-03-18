@@ -3012,10 +3012,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2486805186356472801, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
-      propertyPath: _blasterShotPrefab
-      value: 
-      objectReference: {fileID: 4294180677684561684, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
     - target: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: m_Name
       value: Player

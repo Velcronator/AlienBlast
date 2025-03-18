@@ -20,6 +20,7 @@ public class BlasterShot : MonoBehaviour
     public void Launch(Vector2 direction)
     {
         _direction = direction;
+        transform.rotation = _direction == Vector2.right ? Quaternion.identity : Quaternion.Euler(0, 180, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
