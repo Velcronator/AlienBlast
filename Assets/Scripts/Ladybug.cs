@@ -48,8 +48,6 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage
         }
     }
 
-
-
     void Update()
     {
         CheckGroundInFront();
@@ -98,5 +96,11 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage
     public void TakeLaserDamage()
     {
         _rigidbody.linearVelocity = Vector2.zero;
+    }
+
+    public void TakeDamage()
+    {
+        Debug.Log("Ladybug takes damage");
+        gameObject.SetActive(false);
     }
 }
