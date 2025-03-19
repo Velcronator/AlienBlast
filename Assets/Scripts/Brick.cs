@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Brick : MonoBehaviour, ITakeLaserDamage
+public class Brick : MonoBehaviour, ITakeLaserDamage, ITakeDamage
 {
     [SerializeField] ParticleSystem _brickParticles;
     [SerializeField] float _laserDestructionTime = 1f;

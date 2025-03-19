@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Dog : MonoBehaviour
+public class Dog : MonoBehaviour, ITakeDamage
 {
     public void Shoot()
     {

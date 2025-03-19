@@ -25,20 +25,10 @@ public class BlasterShot : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var dog = collision.gameObject.GetComponent<Dog>();
-        if (dog != null)
+        var damagable = collision.gameObject.GetComponent<ITakeDamage>();
+        if (damagable != null)
         {
-            dog.TakeDamage();
-        }
-        var brick = collision.gameObject.GetComponent<Brick>();
-        if (brick != null)
-        {
-            brick.TakeDamage();
-        }
-        var ladybug = collision.gameObject.GetComponent<Ladybug>();
-        if (ladybug != null)
-        {
-            ladybug.TakeDamage();
+            damagable.TakeDamage();
         }
         gameObject.SetActive(false);
     }
