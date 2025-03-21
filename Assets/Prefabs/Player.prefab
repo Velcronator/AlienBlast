@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 5869504120303254495}
   - component: {fileID: 3804211015837201897}
   - component: {fileID: 2111345613594661587}
-  - component: {fileID: 6802735896486608792}
   - component: {fileID: 1681111857056542560}
   - component: {fileID: 2600923842254237776}
   - component: {fileID: 5509867984486066323}
@@ -156,14 +155,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!81 &6802735896486608792
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5806510465363911385}
-  m_Enabled: 1
 --- !u!70 &1681111857056542560
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
