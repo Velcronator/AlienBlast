@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -52,6 +53,10 @@ public class Player : MonoBehaviour
 
         FindFirstObjectByType<PlayerCanvas>().Bind(this);
     }
+
+    void OnEnable() => FindFirstObjectByType<CinemachineTargetGroup>()?.AddMember(transform, 1f, 1f);
+
+    void OnDisable() => FindFirstObjectByType<CinemachineTargetGroup>()?.RemoveMember(transform);
 
     void OnDrawGizmos()
     {
