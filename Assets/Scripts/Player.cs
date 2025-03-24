@@ -82,7 +82,11 @@ public class Player : MonoBehaviour
     {
         UpdateGrounding();
 
-        var _horizontalInput = _playerInput.actions["Move"].ReadValue<Vector2>().x;
+        var input = _playerInput.actions["Move"].ReadValue<Vector2>();
+        var horizontalInput = input.x;
+        var verticalInput = input.y;
+
+
         var vertical = _rb.linearVelocity.y;
 
         if (_playerInput.actions["Jump"].WasPerformedThisFrame() && _jumpsRemaining > 0)
@@ -98,8 +102,12 @@ public class Player : MonoBehaviour
         if (_playerInput.actions["Jump"].ReadValue<float>() > 0 && _jumpEndTime > Time.time)
             vertical = _jumpVelocity;
 
-        var desiredHorizontal = _horizontalInput * _maxHorizontalSpeed;
+        var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
         var acceleration = IsOnSnow ? _snowAcceleration : _groundAcceleration;
+
+        _animator.SetBool("Duck", verticalInput < 0);
+        if(verticalInput < 0)
+            desiredHorizontal = 0;
 
         if (desiredHorizontal > _horizontal)
         {

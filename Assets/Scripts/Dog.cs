@@ -10,7 +10,6 @@ public class Dog : MonoBehaviour, ITakeDamage
 
     public void TakeDamage()
     {
-        Debug.Log("Dog takes damage");
         gameObject.SetActive(false);
     }
 }
