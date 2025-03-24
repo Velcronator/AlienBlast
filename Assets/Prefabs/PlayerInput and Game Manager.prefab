@@ -107,3 +107,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blasterShotPrefab: {fileID: 4294180677684561684, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
+  _blasterImpactExplosionPrefab: {fileID: 2715717508130380276, guid: 1d82c2e25fed8fc458376d6c6e0ab0ac, type: 3}

@@ -5,7 +5,6 @@ using UnityEngine.Pool;
 public class BlasterShot : MonoBehaviour
 {
     [SerializeField] float _speed = 5f;
-    [SerializeField] GameObject _impactExplosion;
     [SerializeField] float _maxLifetime = 4f;
 
     Rigidbody2D _rb;
@@ -34,19 +33,18 @@ public class BlasterShot : MonoBehaviour
     {
         transform.position = position;
         _direction = direction;
-        transform.rotation = _direction == Vector2.right ? Quaternion.identity : Quaternion.Euler(0, 180, 0);
+        transform.rotation = _direction == Vector2.left ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
         _selfDestructTime = Time.time + _maxLifetime;
         //Invoke(nameof(SelfDestruct), _maxLifetime);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        var damagable = collision.gameObject.GetComponent<ITakeDamage>();
-        if (damagable != null)
-            damagable.TakeDamage();
+        var damageable = collision.gameObject.GetComponent<ITakeDamage>();
+        if (damageable != null)
+            damageable.TakeDamage();
 
-        var explosion = Instantiate(_impactExplosion, collision.contacts[0].point, Quaternion.identity);
-        Destroy(explosion.gameObject, 0.9f);
+        PoolManager.Instance.GetBlasterExplosion(collision.contacts[0].point);
 
         SelfDestruct();
     }
