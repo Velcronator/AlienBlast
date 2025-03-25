@@ -108,8 +108,6 @@ public class Player : MonoBehaviour
         _animator.SetBool("Duck", verticalInput < 0);
         if (_animator.GetBool("IsDucking"))
             desiredHorizontal = 0;
-        //if (verticalInput < 0)
-        //    desiredHorizontal = 0;
 
         if (desiredHorizontal > _horizontal)
         {
