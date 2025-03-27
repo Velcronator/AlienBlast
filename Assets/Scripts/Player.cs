@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip _coinSFX;
     [SerializeField] AudioClip _hurtSFX;
     [SerializeField] float _knockbackVelocity = 200f;
+    [SerializeField] Collider2D _duckingCollider;
+    [SerializeField] Collider2D _standingCollider;
 
 
     public bool IsGrounded;
@@ -25,11 +27,11 @@ public class Player : MonoBehaviour
 
     AudioSource _audioSource;
     Animator _animator;
-    Collider2D _collider;
     Rigidbody2D _rb;
     PlayerInput _playerInput;
-    float _jumpEndTime;
+    SpriteRenderer _spriteRenderer;
     float _horizontal;
+    float _jumpEndTime;
     int _jumpsRemaining;
 
     PlayerData _playerData = new PlayerData();
@@ -41,16 +43,14 @@ public class Player : MonoBehaviour
     public int Health { get => _playerData.Health; }
     public Vector2 Direction { get; private set; } = Vector2.right;
 
-    private void Awake()
+    void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponentInChildren<Animator>();
-        _collider = GetComponent<Collider2D>();
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
         // todo : this is not performant way to do this
-
-
         FindFirstObjectByType<PlayerCanvas>().Bind(this);
     }
 
@@ -60,20 +60,18 @@ public class Player : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (_collider == null)
-            _collider = GetComponent<Collider2D>();
-
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         Gizmos.color = Color.red;
 
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _collider.bounds.extents.y);
-        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
-
-        // Draw Left Foot
-        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _collider.bounds.extents.y);
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - spriteRenderer.bounds.extents.y);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
 
         // Draw Right Foot
-        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _collider.bounds.extents.y);
+        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
+        Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+
+        // Draw Left foot
+        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
     }
 
@@ -106,8 +104,14 @@ public class Player : MonoBehaviour
         var acceleration = IsOnSnow ? _snowAcceleration : _groundAcceleration;
 
         _animator.SetBool("Duck", verticalInput < 0);
-        if (_animator.GetBool("IsDucking"))
+
+        var isDucking = _animator.GetBool("IsDucking");
+
+        if (isDucking)
             desiredHorizontal = 0;
+
+        _duckingCollider.enabled = isDucking;
+        _standingCollider.enabled = !isDucking;
 
         if (desiredHorizontal > _horizontal)
         {
@@ -132,17 +136,24 @@ public class Player : MonoBehaviour
         IsGrounded = false;
         IsOnSnow = false;
 
-        // Check Center
-        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _collider.bounds.extents.y);
+        //Check Middle
+        Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
         if (hit.collider)
         {
             IsGrounded = true;
             IsOnSnow = hit.collider.CompareTag("Snow");
         }
-
-        // Check Left Foot
-        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _collider.bounds.extents.y);
+        //Check Left
+        origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
+        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
+        if (hit.collider)
+        {
+            IsGrounded = true;
+            IsOnSnow = hit.collider.CompareTag("Snow");
+        }
+        //Check Right
+        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
         hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
         if (hit.collider)
         {
@@ -150,16 +161,7 @@ public class Player : MonoBehaviour
             IsOnSnow = hit.collider.CompareTag("Snow");
         }
 
-        // Check Right Foot
-        origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _collider.bounds.extents.y);
-        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
-
-        if (IsGrounded && _rb.linearVelocity.y <= 0)
+        if (IsGrounded && GetComponent<Rigidbody2D>().linearVelocity.y <= 0)
             _jumpsRemaining = _jumpsAllowed;
     }
 
@@ -186,8 +188,8 @@ public class Player : MonoBehaviour
     public void CollectCoin()
     {
         Coins++;
-        CoinsChanged?.Invoke();
         _audioSource.PlayOneShot(_coinSFX);
+        CoinsChanged?.Invoke();
     }
 
     public void Bind(PlayerData playerData)
@@ -198,14 +200,14 @@ public class Player : MonoBehaviour
     public void TakeDamage(Vector2 hitNormal)   
     {
         _playerData.Health--;
-        HealthChanged?.Invoke();
-        _audioSource.PlayOneShot(_hurtSFX);
         if (_playerData.Health <= 0)
         {
             SceneManager.LoadScene(0);
             return;
         }
+        _audioSource.PlayOneShot(_hurtSFX);
         _rb.AddForce(-hitNormal * _knockbackVelocity);
+        HealthChanged?.Invoke();
     }
 
     public void StopJump()
