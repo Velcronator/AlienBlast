@@ -100,7 +100,6 @@ public class Ladybug : MonoBehaviour, ITakeLaserDamage, ITakeDamage
 
     public void TakeDamage()
     {
-        Debug.Log("Ladybug takes damage");
         gameObject.SetActive(false);
     }
 }

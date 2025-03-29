@@ -58,7 +58,6 @@ public class Brick : MonoBehaviour, ITakeLaserDamage, ITakeDamage
 
     public void TakeDamage()
     {
-        Debug.Log("Bricks takes damage");
         _takenDamageTime += _laserDestructionTime / _shotsToDestroy;
         if (_takenDamageTime >= _laserDestructionTime)
             Explode();

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,6 +10,7 @@ public class BlasterShot : MonoBehaviour
     Vector2 _direction = Vector2.right;
     ObjectPool<BlasterShot> _pool;
     float _selfDestructTime;
+    bool _exploded;
 
     void Awake()
     {
@@ -31,6 +31,7 @@ public class BlasterShot : MonoBehaviour
 
     public void Launch(Vector2 direction, Vector2 position)
     {
+        _exploded = false;
         transform.position = position;
         _direction = direction;
         transform.rotation = _direction == Vector2.left ? Quaternion.Euler(0, 180, 0) : Quaternion.identity;
@@ -44,9 +45,13 @@ public class BlasterShot : MonoBehaviour
         if (damageable != null)
             damageable.TakeDamage();
 
-        PoolManager.Instance.GetBlasterExplosion(collision.contacts[0].point);
+        if (_exploded == false)
+        {
+            _exploded = true;
+            PoolManager.Instance.GetBlasterExplosion(collision.contacts[0].point);
+            SelfDestruct();
+        }
 
-        SelfDestruct();
     }
 
     public void SetPool(ObjectPool<BlasterShot> pool)
