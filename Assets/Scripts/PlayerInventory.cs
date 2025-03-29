@@ -60,5 +60,9 @@ public class PlayerInventory : MonoBehaviour
         _items.Add(item);
         _currentItemIndex = _items.Count - 1;
         ToggleEquippedItem();
+
+        var collider = item.gameObject.GetComponent<Collider2D>();
+        if (collider != null)
+            collider.enabled = false;
     }
 }
