@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Key : MonoBehaviour
+public class Key : MonoBehaviour, IItem
 {
     [SerializeField] float _useRange = 1f;
 
@@ -11,7 +10,6 @@ public class Key : MonoBehaviour
         if (playerInventory != null)
         {
             playerInventory.Pickup(this);
-
         }
     }
 

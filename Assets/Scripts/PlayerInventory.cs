@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,9 +5,9 @@ using UnityEngine.InputSystem;
 public class PlayerInventory : MonoBehaviour
 {
     PlayerInput _playerInput;
-    Key EquippedKey => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
+    IItem EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
     public Transform ItemPoint;
-    List<Key> _items = new List<Key>();
+    List<IItem> _items = new List<IItem>();
     int _currentItemIndex;
 
     void Awake()
@@ -18,6 +16,11 @@ public class PlayerInventory : MonoBehaviour
         _playerInput.actions["Attack"].performed += UseEquippedItem;
         _playerInput.actions["Next"].performed += EquipNext;
         _playerInput.actions["Previous"].performed += EquipPrevious;
+
+        foreach (var item in GetComponentsInChildren<IItem>())
+        {
+            Pickup(item);
+        }
     }
 
     private void EquipPrevious(InputAction.CallbackContext context)
@@ -46,15 +49,15 @@ public class PlayerInventory : MonoBehaviour
 
     void UseEquippedItem(InputAction.CallbackContext context)
     {
-        if (EquippedKey)
-            EquippedKey.Use();
+        if (EquippedItem != null)
+            EquippedItem.Use();
     }
 
-    public void Pickup(Key key)
+    public void Pickup(IItem item)
     {
-        key.transform.SetParent(ItemPoint);
-        key.transform.localPosition = Vector3.zero;
-        _items.Add(key);
+        item.transform.SetParent(ItemPoint);
+        item.transform.localPosition = Vector3.zero;
+        _items.Add(item);
         _currentItemIndex = _items.Count - 1;
         ToggleEquippedItem();
     }

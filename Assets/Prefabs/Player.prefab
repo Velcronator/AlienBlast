@@ -78,9 +78,8 @@ GameObject:
   - component: {fileID: 1681111857056542560}
   - component: {fileID: 7315109346963364074}
   - component: {fileID: 2600923842254237776}
-  - component: {fileID: 5509867984486066323}
   - component: {fileID: 6138777861049718877}
-  - component: {fileID: 2486805186356472801}
+  - component: {fileID: 5509867984486066323}
   - component: {fileID: 4532107465580539155}
   m_Layer: 6
   m_Name: Player
@@ -359,36 +358,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5509867984486066323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5806510465363911385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae2d9df356bcccd4b93af7e0f8bf5695, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHorizontalSpeed: 5
-  _jumpVelocity: 5
-  _jumpDuration: 0.5
-  _jumpSprite: {fileID: -6961841436348922279, guid: 07661ded9a2791d4e93de3ca231dc46e, type: 3}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 55
-  _footOffset: 0.5
-  _jumpsAllowed: 2
-  _groundAcceleration: 30
-  _snowAcceleration: 0.5
-  _coinSFX: {fileID: 8300000, guid: d20a43c22de7d9d4197cd115b63a88d8, type: 3}
-  _hurtSFX: {fileID: 8300000, guid: 1872df628a7794848a58cdbb9a4d98d6, type: 3}
-  _knockbackVelocity: 200
-  _duckingCollider: {fileID: 7315109346963364074}
-  _standingCollider: {fileID: 1681111857056542560}
-  IsGrounded: 0
-  IsOnSnow: 0
 --- !u!114 &6138777861049718877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +388,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3879782436892296926}
---- !u!114 &2486805186356472801
+--- !u!114 &5509867984486066323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -428,10 +397,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5806510465363911385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbd0d95942d2fd84081eccfa48564a38, type: 3}
+  m_Script: {fileID: 11500000, guid: ae2d9df356bcccd4b93af7e0f8bf5695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blasterShotSpawnPoint: {fileID: 5578409368089635303}
+  _maxHorizontalSpeed: 5
+  _jumpVelocity: 5
+  _jumpDuration: 0.5
+  _jumpSprite: {fileID: -6961841436348922279, guid: 07661ded9a2791d4e93de3ca231dc46e, type: 3}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 55
+  _footOffset: 0.5
+  _jumpsAllowed: 2
+  _groundAcceleration: 30
+  _snowAcceleration: 0.5
+  _coinSFX: {fileID: 8300000, guid: d20a43c22de7d9d4197cd115b63a88d8, type: 3}
+  _hurtSFX: {fileID: 8300000, guid: 1872df628a7794848a58cdbb9a4d98d6, type: 3}
+  _knockbackVelocity: 200
+  _duckingCollider: {fileID: 7315109346963364074}
+  _standingCollider: {fileID: 1681111857056542560}
+  IsGrounded: 0
+  IsOnSnow: 0
 --- !u!114 &4532107465580539155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +747,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5869504120303254495}
     m_Modifications:
+    - target: {fileID: 1582240137606865927, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+      propertyPath: m_Name
+      value: Blaster
+      objectReference: {fileID: 0}
     - target: {fileID: 4283367920542834431, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -826,8 +816,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1776174814450263652, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5578409368089635303}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1582240137606865927, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 471130710282887248}
   m_SourcePrefab: {fileID: 100100000, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+--- !u!1 &114988001637018595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1582240137606865927, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
+  m_PrefabInstance: {fileID: 1472039360473698276}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &471130710282887248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114988001637018595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd0d95942d2fd84081eccfa48564a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blasterShotSpawnPoint: {fileID: 5578409368089635303}
 --- !u!4 &921978340735199616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1776174814450263652, guid: 691aa0bbcaf112744846774c2a8b4e6b, type: 3}
