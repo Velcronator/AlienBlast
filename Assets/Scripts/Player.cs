@@ -83,7 +83,6 @@ public class Player : MonoBehaviour
         var horizontalInput = input.x;
         var verticalInput = input.y;
 
-
         var vertical = _rb.linearVelocity.y;
 
         if (_playerInput.actions["Jump"].WasPerformedThisFrame() && _jumpsRemaining > 0)
@@ -102,7 +101,7 @@ public class Player : MonoBehaviour
         var desiredHorizontal = horizontalInput * _maxHorizontalSpeed;
         var acceleration = IsOnSnow ? _snowAcceleration : _groundAcceleration;
 
-        _animator.SetBool("Duck", verticalInput < 0);
+        _animator.SetBool("Duck", verticalInput < 0 && MathF.Abs(verticalInput) > MathF.Abs(horizontalInput));
 
         var isDucking = _animator.GetBool("IsDucking");
 
