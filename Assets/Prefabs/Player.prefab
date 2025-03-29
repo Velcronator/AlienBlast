@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 5509867984486066323}
   - component: {fileID: 6138777861049718877}
   - component: {fileID: 2486805186356472801}
+  - component: {fileID: 4532107465580539155}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -386,7 +387,6 @@ MonoBehaviour:
   _knockbackVelocity: 200
   _duckingCollider: {fileID: 7315109346963364074}
   _standingCollider: {fileID: 1681111857056542560}
-  ItemPoint: {fileID: 2808537041597684706}
   IsGrounded: 0
   IsOnSnow: 0
 --- !u!114 &6138777861049718877
@@ -432,6 +432,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blasterShotSpawnPoint: {fileID: 5578409368089635303}
+--- !u!114 &4532107465580539155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806510465363911385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31dfe5e5181529409cae277a6315aa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemPoint: {fileID: 2808537041597684706}
 --- !u!1 &6331046609269937085
 GameObject:
   m_ObjectHideFlags: 0
