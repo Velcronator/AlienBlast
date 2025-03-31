@@ -517,6 +517,8 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: -2960526138707593074, guid: 4a5430002b93e6f41b66c1b9f554f0e3, type: 2}
     value: {fileID: 2036804806}
+  - key: {fileID: -4956295279924299407, guid: 4a5430002b93e6f41b66c1b9f554f0e3, type: 2}
+    value: {fileID: 1540446421}
   m_ExposedReferences:
     m_References:
     - 95f4a4f50f5bf534da8455fb558b2416: {fileID: 832646867}
@@ -2332,6 +2334,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3750839732460752665, guid: 406570c940fc16c429b64e26a9a3a558, type: 3}
   m_PrefabInstance: {fileID: 1317496241}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1540446416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 524431922648305124, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
+  m_PrefabInstance: {fileID: 8931206837864893332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1540446418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5154137509899959997, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
+  m_PrefabInstance: {fileID: 8931206837864893332}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540446416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b0f0c71c992f04684818231775157c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1540446421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540446416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: cd4ee47c648258c44bfe68c80c0a6f95, type: 2}
+    - {fileID: 11400000, guid: 2a92c10f4806d96429a471431f4737cd, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1540446418}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: ToggleCinematic
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1540446418}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: ToggleCinematic
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1595821760
 GameObject:
   m_ObjectHideFlags: 0
@@ -4094,7 +4157,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 524431922648305124, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540446421}
   m_SourcePrefab: {fileID: 100100000, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

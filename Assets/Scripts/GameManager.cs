@@ -8,12 +8,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static bool CinematicPlaying { get; private set; }
 
     public List<string> AllGameNames = new List<string>();
 
     [SerializeField] GameData _gameData;
 
     PlayerInputManager _playerInputManager;
+    public void ToggleCinematic(bool cinematicPlaying) => CinematicPlaying = cinematicPlaying;
+
 
     void Awake()
     {
