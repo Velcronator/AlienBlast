@@ -1,9 +1,14 @@
-using System;
 using UnityEngine;
 
 public class Dog : MonoBehaviour, ITakeDamage
 {
-    public void Shoot()
+    void Start()
+    {
+        var shootAnimationWrapper = GetComponentInChildren<ShootAnimationWrapper>();
+        shootAnimationWrapper.OnShoot += Shoot;
+    }
+
+    void Shoot()
     {
         Debug.Log("Dog shoots");
     }

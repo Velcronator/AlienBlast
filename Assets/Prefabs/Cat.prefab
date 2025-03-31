@@ -805,6 +805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac1eb0a440c32c4ba6ce715fba72498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _catBombPrefab: {fileID: 3547058121704957508, guid: c2d2dc5bcd182d94490c88b1896807fa, type: 3}
+  _firePoint: {fileID: 1614162593407656258}
 --- !u!1 &3075699859428243642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1202,6 +1204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3980898394692363129}
   - component: {fileID: 862320295505390836}
+  - component: {fileID: 614117160380438466}
   m_Layer: 0
   m_Name: base
   m_TagString: Untagged
@@ -1218,7 +1221,7 @@ Transform:
   m_GameObject: {fileID: 3993915808771137776}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 7, y: -4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1248,6 +1251,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &614117160380438466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3993915808771137776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee49811146c6fe4ebcaae145ff5b62c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4032276008899429343
 GameObject:
   m_ObjectHideFlags: 0
