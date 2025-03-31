@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ToggleLock : MonoBehaviour
 {
-    SpriteRenderer _spriteRenderer;
+    [SerializeField] UnityEvent OnUnlock;
     bool _unlocked;
+    SpriteRenderer _spriteRenderer;
 
     void Awake()
     {
@@ -17,5 +19,9 @@ public class ToggleLock : MonoBehaviour
     {
         _unlocked = !_unlocked;
         _spriteRenderer.color = _unlocked ? Color.white : Color.gray;
+        if(_unlocked)
+        {
+            OnUnlock?.Invoke();
+        }
     }
 }
