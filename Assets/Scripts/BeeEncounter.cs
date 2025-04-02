@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,17 @@ using UnityEngine;
 public class BeeEncounter : MonoBehaviour
 {
     [SerializeField] List<Transform> _lightnings;
-    //[SerializeField] float _lightningDamageDelay = 1.5f;
-    //[SerializeField] float _lightningRadius = 2.5f;
-    //[SerializeField] LayerMask _layerMask;
-    //[SerializeField] float _lightningAnimationTime = 2.5f;
-    //[SerializeField] float _shockTime = 0.5f;
-    //[SerializeField] int _numOfSimultaneousLightnings = 2;
-    [SerializeField] float _delayBetweenLightningStrikes = 2.5f;
+    [SerializeField] float _delayBeforeDamage = 1.5f;
+    [SerializeField] float _lightningAnimationTime = 2f;
+    [SerializeField] float _delayBetweenLightning = 1f;
+    [SerializeField] float _lightningRadius = 1f;
+    [SerializeField] LayerMask _playerLayer;
+
+    private void OnValidate()
+    {
+        if (_lightningAnimationTime <= _delayBeforeDamage)
+            _delayBeforeDamage = _lightningAnimationTime;
+    }
 
     void OnEnable()
     {
@@ -28,9 +33,28 @@ public class BeeEncounter : MonoBehaviour
             }
             yield return null;
 
-            int index = Random.Range(0, _lightnings.Count);
+            int index = UnityEngine.Random.Range(0, _lightnings.Count);
             _lightnings[index].gameObject.SetActive(true);
-            yield return new WaitForSeconds(_delayBetweenLightningStrikes);
+            yield return new WaitForSeconds(_delayBeforeDamage);
+            DamagePlayersInRange(_lightnings[index]);
+            yield return new WaitForSeconds(_lightningAnimationTime - _delayBeforeDamage);
+            _lightnings[index].gameObject.SetActive(false);
+            yield return new WaitForSeconds(_delayBetweenLightning);
+        }
+    }
+
+    void DamagePlayersInRange(Transform lightning)
+    {
+        Collider2D[] hitResults = Physics2D.OverlapCircleAll(lightning.position, _lightningRadius, _playerLayer);
+
+        foreach (Collider2D hit in hitResults)
+        {
+            Player player = hit.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(lightning.position);
+                //player.TakeDamage(Vector3.zero); if you want the player to not be pushed back
+            }
         }
     }
 }
