@@ -20,6 +20,8 @@ public class BeeEncounter : MonoBehaviour
     {
         if (_lightningAnimationTime <= _delayBeforeDamage)
             _delayBeforeDamage = _lightningAnimationTime;
+        // make sure the input is valid
+        _numberOfLightnings = Mathf.Clamp(_numberOfLightnings, 0, _lightnings.Count);
     }
 
     void OnEnable()
@@ -49,17 +51,23 @@ public class BeeEncounter : MonoBehaviour
     }
     private IEnumerator SpawnNewLightning()
     {
-        int index = UnityEngine.Random.Range(0, _lightnings.Count);
-        var ligntning = _lightnings[index];
+        //if (_activeLightnings.Count >= _lightnings.Count)
+        //{
+        //    Debug.LogError("The number of requested lightnings exceeds the total available lightnings.");
+        //    yield break;
+        //}
 
-        while (_activeLightnings.Contains(ligntning))
+        int index = Random.Range(0, _lightnings.Count);
+        var lightning = _lightnings[index];
+
+        while (_activeLightnings.Contains(lightning))
         {
-            index = UnityEngine.Random.Range(0, _lightnings.Count);
-            ligntning = _lightnings[index];
+            index = Random.Range(0, _lightnings.Count);
+            lightning = _lightnings[index];
         }
 
-        StartCoroutine(ShowLightning(ligntning));
-        _activeLightnings.Add(ligntning);
+        StartCoroutine(ShowLightning(lightning));
+        _activeLightnings.Add(lightning);
 
         yield return new WaitForSeconds(_delayBetweenStrikes);
     }
