@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BeeEncounter : MonoBehaviour
@@ -9,8 +9,12 @@ public class BeeEncounter : MonoBehaviour
     [SerializeField] float _delayBeforeDamage = 1.5f;
     [SerializeField] float _lightningAnimationTime = 2f;
     [SerializeField] float _delayBetweenLightning = 1f;
+    [SerializeField] float _delayBetweenStrikes = 0.25f;
     [SerializeField] float _lightningRadius = 1f;
     [SerializeField] LayerMask _playerLayer;
+    [SerializeField] int _numberOfLightnings = 1;
+
+    List<Transform> _activeLightnings;
 
     private void OnValidate()
     {
@@ -25,22 +29,49 @@ public class BeeEncounter : MonoBehaviour
 
     IEnumerator StartEncounter()
     {
+        foreach (var lightning in _lightnings)
+        {
+            lightning.gameObject.SetActive(false);
+        }
+
+        _activeLightnings = new List<Transform>();
+
         while (true)
         {
-            foreach (var lightning in _lightnings)
+            for (int i = 0; i < _numberOfLightnings; i++)
             {
-                lightning.gameObject.SetActive(false);
+                yield return SpawnNewLightning();
             }
-            yield return null;
 
-            int index = UnityEngine.Random.Range(0, _lightnings.Count);
-            _lightnings[index].gameObject.SetActive(true);
-            yield return new WaitForSeconds(_delayBeforeDamage);
-            DamagePlayersInRange(_lightnings[index]);
-            yield return new WaitForSeconds(_lightningAnimationTime - _delayBeforeDamage);
-            _lightnings[index].gameObject.SetActive(false);
-            yield return new WaitForSeconds(_delayBetweenLightning);
+            yield return new WaitUntil(() => _activeLightnings.All(t => !t.gameObject.activeSelf));
+            _activeLightnings.Clear();
         }
+    }
+    private IEnumerator SpawnNewLightning()
+    {
+        int index = UnityEngine.Random.Range(0, _lightnings.Count);
+        var ligntning = _lightnings[index];
+
+        while (_activeLightnings.Contains(ligntning))
+        {
+            index = UnityEngine.Random.Range(0, _lightnings.Count);
+            ligntning = _lightnings[index];
+        }
+
+        StartCoroutine(ShowLightning(ligntning));
+        _activeLightnings.Add(ligntning);
+
+        yield return new WaitForSeconds(_delayBetweenStrikes);
+    }
+
+    IEnumerator ShowLightning(Transform selectedLightning)
+    {
+        selectedLightning.gameObject.SetActive(true);
+        yield return new WaitForSeconds(_delayBeforeDamage);
+        DamagePlayersInRange(selectedLightning);
+        yield return new WaitForSeconds(_lightningAnimationTime - _delayBeforeDamage);
+        selectedLightning.gameObject.SetActive(false);
+        yield return new WaitForSeconds(_delayBetweenLightning);
     }
 
     void DamagePlayersInRange(Transform lightning)
@@ -52,7 +83,7 @@ public class BeeEncounter : MonoBehaviour
             Player player = hit.GetComponent<Player>();
             if (player != null)
             {
-                player.TakeDamage(lightning.position);
+                player.TakeDamage(lightning.position); 
                 //player.TakeDamage(Vector3.zero); if you want the player to not be pushed back
             }
         }
