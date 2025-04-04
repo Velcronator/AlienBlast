@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
     {
         UpdateGrounding();
 
-        if(GameManager.CinematicPlaying == false)
+        if (GameManager.CinematicPlaying == false)
         {
             UpdateMovement();
         }
@@ -142,33 +142,39 @@ public class Player : MonoBehaviour
         IsGrounded = false;
         IsOnSnow = false;
 
-        //Check Middle
+        //Check center
         Vector2 origin = new Vector2(transform.position.x, transform.position.y - _spriteRenderer.bounds.extents.y);
-        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
+        CheckGrounding(origin);
+
         //Check Left
         origin = new Vector2(transform.position.x - _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
-        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
+        CheckGrounding(origin);
+
         //Check Right
         origin = new Vector2(transform.position.x + _footOffset, transform.position.y - _spriteRenderer.bounds.extents.y);
-        hit = Physics2D.Raycast(origin, Vector2.down, 0.1f, _layerMask);
-        if (hit.collider)
-        {
-            IsGrounded = true;
-            IsOnSnow = hit.collider.CompareTag("Snow");
-        }
+        CheckGrounding(origin);
 
         if (IsGrounded && GetComponent<Rigidbody2D>().linearVelocity.y <= 0)
             _jumpsRemaining = _jumpsAllowed;
+    }
+
+    private void CheckGrounding(Vector2 origin)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, Vector2.down, 0.1f, _layerMask);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider == null)
+                continue;
+
+            if (hit.collider.isTrigger &&
+                hit.collider.GetComponent<Water>() == null)
+                continue;
+
+            IsGrounded = true;
+            IsOnSnow |= hit.collider.CompareTag("Snow"); 
+            //Debug.Log($"Touching {hit.collider}", hit.collider.gameObject);
+        }
     }
 
     void UpdateAnimation()
@@ -200,10 +206,10 @@ public class Player : MonoBehaviour
 
     public void Bind(PlayerData playerData)
     {
-        _playerData =  playerData;
+        _playerData = playerData;
     }
-    
-    public void TakeDamage(Vector2 hitNormal)   
+
+    public void TakeDamage(Vector2 hitNormal)
     {
         _playerData.Health--;
         if (_playerData.Health <= 0)
