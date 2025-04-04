@@ -20,9 +20,11 @@ public class Player : MonoBehaviour
     [SerializeField] float _knockbackVelocity = 200f;
     [SerializeField] Collider2D _duckingCollider;
     [SerializeField] Collider2D _standingCollider;
+    [SerializeField] float _wallDetectionDistance = 0.5f;
 
     public bool IsGrounded;
     public bool IsOnSnow;
+    public bool IsDucking;
 
     AudioSource _audioSource;
     Animator _animator;
@@ -73,7 +75,29 @@ public class Player : MonoBehaviour
         // Draw Left foot
         origin = new Vector2(transform.position.x + _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
+
+        DrawGizmosForSide(Vector2.left, pointCount);
+        DrawGizmosForSide(Vector2.right, pointCount);
     }
+
+    public int pointCount = 5;
+
+    private void DrawGizmosForSide(Vector2 direction, int numberOfPoints)
+    {
+        var activeCollider = IsDucking ? _duckingCollider : _standingCollider;
+        float colliderHeight = _standingCollider.bounds.size.y;
+        float segmentSize = colliderHeight / (float)numberOfPoints;
+
+        for (int i = 0; i < numberOfPoints; i++)
+        {
+            var origin = transform.position - new Vector3(0, colliderHeight / 2f, 0);
+            origin += new Vector3(0, segmentSize * i, 0);
+            origin += (Vector3)direction * _wallDetectionDistance;
+
+            Gizmos.DrawWireSphere(origin, 0.05f);
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -114,13 +138,13 @@ public class Player : MonoBehaviour
 
         _animator.SetBool("Duck", verticalInput < 0 && MathF.Abs(verticalInput) > MathF.Abs(horizontalInput));
 
-        var isDucking = _animator.GetBool("IsDucking");
+        IsDucking = _animator.GetBool("IsDucking");
 
-        if (isDucking)
+        if (IsDucking)
             desiredHorizontal = 0;
 
-        _duckingCollider.enabled = isDucking;
-        _standingCollider.enabled = !isDucking;
+        _duckingCollider.enabled = IsDucking;
+        _standingCollider.enabled = !IsDucking;
 
         if (desiredHorizontal > _horizontal)
         {
@@ -181,8 +205,11 @@ public class Player : MonoBehaviour
             IsGrounded = true;
             IsOnSnow |= hit.collider.CompareTag("Snow");
             // Debug.Log($"Touching {hit.collider}", hit.collider.gameObject);
+            // ChatGPT version maybe. check out in the Libre file
         }
     }
+
+
 
 
     void UpdateAnimation()
