@@ -1226,10 +1226,12 @@ MonoBehaviour:
   _delayBeforeDamage: 1.5
   _lightningAnimationTime: 2
   _delayBetweenLightning: 1
+  _delayBetweenStrikes: 0.25
   _lightningRadius: 1
   _playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  _numberOfLightnings: 1
 --- !u!4 &675098231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6157071797001828374, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
@@ -4304,6 +4306,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: _layerMask.m_Bits
+      value: 51
+      objectReference: {fileID: 0}
     - target: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: m_Name
       value: Player
