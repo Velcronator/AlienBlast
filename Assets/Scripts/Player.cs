@@ -21,13 +21,15 @@ public class Player : MonoBehaviour
     [SerializeField] Collider2D _duckingCollider;
     [SerializeField] Collider2D _standingCollider;
     [SerializeField] float _wallDetectionDistance = 0.5f;
-    [SerializeField] int _pointCount = 5;
+    [SerializeField] int _wallCheckPoints = 5;
     [SerializeField] float _buffer = 0.1f;
     [SerializeField] float _SideGizmoOffset = 0.5f;
 
     public bool IsGrounded;
     public bool IsOnSnow;
     public bool IsDucking;
+    public bool IsTouchingRightWall;
+    public bool IsTouchingLeftWall;
 
     AudioSource _audioSource;
     Animator _animator;
@@ -47,6 +49,7 @@ public class Player : MonoBehaviour
     public int Coins { get => _playerData.Coins; private set => _playerData.Coins = value; }
     public int Health { get => _playerData.Health; }
     public Vector2 Direction { get; private set; } = Vector2.right;
+
 
     void Awake()
     {
@@ -79,24 +82,43 @@ public class Player : MonoBehaviour
         origin = new Vector2(transform.position.x + _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
 
-        DrawGizmosForSide(Vector2.left, _pointCount, _buffer);
-        DrawGizmosForSide(Vector2.right, _pointCount, _buffer);
+        DrawGizmosForSide(Vector2.left);
+        DrawGizmosForSide(Vector2.right);
     }
 
-    void DrawGizmosForSide(Vector2 direction, int numberOfPoints, float buffer)
+    void DrawGizmosForSide(Vector2 direction)
     {
         var activeCollider = IsDucking ? _duckingCollider : _standingCollider;
-        float colliderHeight = activeCollider.bounds.size.y - 2 * buffer;
-        float segmentSize = colliderHeight / (float)(numberOfPoints -1);
+        float colliderHeight = activeCollider.bounds.size.y - 2 * _buffer;
+        float segmentSize = colliderHeight / (float)(_wallCheckPoints - 1);
 
-        for (int i = 0; i < numberOfPoints; i++)
+        for (int i = 0; i < _wallCheckPoints; i++)
         {
             var origin = transform.position - new Vector3(0, activeCollider.bounds.size.y / 2f, 0);
-            origin += new Vector3(0, buffer + segmentSize * i, 0);
+            origin += new Vector3(0, _buffer + segmentSize * i, 0);
             origin += (Vector3)direction * _wallDetectionDistance;
             origin += Vector3.up * _SideGizmoOffset; // Apply the offset here
             Gizmos.DrawWireSphere(origin, 0.05f);
         }
+    }
+
+    bool CheckForWall(Vector2 direction)
+    {
+        var activeCollider = IsDucking ? _duckingCollider : _standingCollider;
+        float colliderHeight = activeCollider.bounds.size.y - 2 * _buffer;
+        float segmentSize = colliderHeight / (float)(_wallCheckPoints - 1);
+
+        for (int i = 0; i < _wallCheckPoints; i++)
+        {
+            var origin = transform.position - new Vector3(0, activeCollider.bounds.size.y / 2f, 0);
+            origin += new Vector3(0, _buffer + segmentSize * i, 0);
+            origin += (Vector3)direction * _wallDetectionDistance;
+            origin += Vector3.up * _SideGizmoOffset; // Apply the offset here
+
+            if (Physics2D.Raycast(origin, direction, 0.1f))
+                return true;
+        }
+        return false;
     }
 
 
@@ -104,6 +126,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         UpdateGrounding();
+        UpdateWallTouching();
 
         if (GameManager.CinematicPlaying == false)
         {
@@ -111,6 +134,12 @@ public class Player : MonoBehaviour
         }
         UpdateAnimation();
         UpdateDirection();
+    }
+
+    private void UpdateWallTouching()
+    {
+        IsTouchingRightWall = CheckForWall(Vector2.right);
+        IsTouchingLeftWall = CheckForWall(Vector2.left);
     }
 
     private void UpdateMovement()
