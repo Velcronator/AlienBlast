@@ -4534,9 +4534,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1681111857056542560, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3804211015837201897, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: _buffer
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: _pointCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: _SideGizmoOffset
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: _layerMask.m_Bits
       value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509867984486066323, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: _wallDetectionDistance
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5806510465363911385, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: m_Name
@@ -4580,6 +4604,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869504120303254495, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7315109346963364074, guid: faaa3312122a25148aaf9e849d3febc0, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

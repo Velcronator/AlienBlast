@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     [SerializeField] Collider2D _duckingCollider;
     [SerializeField] Collider2D _standingCollider;
     [SerializeField] float _wallDetectionDistance = 0.5f;
+    [SerializeField] int _pointCount = 5;
+    [SerializeField] float _buffer = 0.1f;
+    [SerializeField] float _SideGizmoOffset = 0.5f;
 
     public bool IsGrounded;
     public bool IsOnSnow;
@@ -76,24 +79,22 @@ public class Player : MonoBehaviour
         origin = new Vector2(transform.position.x + _footOffset, transform.position.y - spriteRenderer.bounds.extents.y);
         Gizmos.DrawLine(origin, origin + Vector2.down * 0.1f);
 
-        DrawGizmosForSide(Vector2.left, pointCount);
-        DrawGizmosForSide(Vector2.right, pointCount);
+        DrawGizmosForSide(Vector2.left, _pointCount, _buffer);
+        DrawGizmosForSide(Vector2.right, _pointCount, _buffer);
     }
 
-    public int pointCount = 5;
-
-    private void DrawGizmosForSide(Vector2 direction, int numberOfPoints)
+    void DrawGizmosForSide(Vector2 direction, int numberOfPoints, float buffer)
     {
         var activeCollider = IsDucking ? _duckingCollider : _standingCollider;
-        float colliderHeight = _standingCollider.bounds.size.y;
-        float segmentSize = colliderHeight / (float)numberOfPoints;
+        float colliderHeight = activeCollider.bounds.size.y - 2 * buffer;
+        float segmentSize = colliderHeight / (float)(numberOfPoints -1);
 
         for (int i = 0; i < numberOfPoints; i++)
         {
-            var origin = transform.position - new Vector3(0, colliderHeight / 2f, 0);
-            origin += new Vector3(0, segmentSize * i, 0);
+            var origin = transform.position - new Vector3(0, activeCollider.bounds.size.y / 2f, 0);
+            origin += new Vector3(0, buffer + segmentSize * i, 0);
             origin += (Vector3)direction * _wallDetectionDistance;
-
+            origin += Vector3.up * _SideGizmoOffset; // Apply the offset here
             Gizmos.DrawWireSphere(origin, 0.05f);
         }
     }
