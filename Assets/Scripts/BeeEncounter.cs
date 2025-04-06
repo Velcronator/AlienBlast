@@ -14,10 +14,12 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] int _numberOfLightnings = 1;
     [SerializeField] GameObject _bee;
+    [SerializeField] Transform[] _beeDestinations;
 
     List<Transform> _activeLightnings;
     public int _health = 5;
-    
+    public int _destinationIndex;
+
 
     private void OnValidate()
     {
@@ -29,10 +31,30 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     void OnEnable()
     {
-        StartCoroutine(StartEncounter());
+        StartCoroutine(StartLightning());
+        StartCoroutine(StartMovement());
     }
 
-    IEnumerator StartEncounter()
+    IEnumerator StartMovement()
+    {
+        while(true)
+        {
+            var destination = _beeDestinations[_destinationIndex];
+
+            while(Vector2.Distance(_bee.transform.position, destination.position) > 0.1f)
+            {
+                _bee.transform.position = Vector2.MoveTowards(_bee.transform.position, destination.position, Time.deltaTime);
+                yield return null;
+            }
+            _destinationIndex++;
+            if (_destinationIndex >= _beeDestinations.Length)
+            {
+                _destinationIndex = 0;
+            }
+        }
+    }
+
+    IEnumerator StartLightning()
     {
         foreach (var lightning in _lightnings)
         {
