@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     [SerializeField] float _knockbackVelocity = 400;
     [SerializeField] Collider2D _duckingCollider;
     [SerializeField] Collider2D _standingCollider;
-    [SerializeField] float _groundDetectionOffset = 0.5f;
     [SerializeField] float _wallDetectionDistance = 0.5f;
     [SerializeField] int _wallCheckPoints = 5;
     [SerializeField] float _buffer = 0.1f;

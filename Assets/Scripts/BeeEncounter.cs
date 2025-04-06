@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BeeEncounter : MonoBehaviour
+public class BeeEncounter : MonoBehaviour, ITakeDamage
 {
     [SerializeField] List<Transform> _lightnings;
     [SerializeField] float _delayBeforeDamage = 1.5f;
@@ -13,8 +13,11 @@ public class BeeEncounter : MonoBehaviour
     [SerializeField] float _lightningRadius = 1f;
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] int _numberOfLightnings = 1;
+    [SerializeField] GameObject _bee;
 
     List<Transform> _activeLightnings;
+    public int _health = 5;
+    
 
     private void OnValidate()
     {
@@ -94,6 +97,17 @@ public class BeeEncounter : MonoBehaviour
                 player.TakeDamage(lightning.position); 
                 //player.TakeDamage(Vector3.zero); if you want the player to not be pushed back
             }
+        }
+    }
+
+    public void TakeDamage()
+    {
+        _health--;
+        if (_health <= 0)
+        {
+            // Handle bee death
+            gameObject.SetActive(false);
+            _bee.SetActive(false);
         }
     }
 }
