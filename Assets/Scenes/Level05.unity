@@ -249,9 +249,9 @@ GameObject:
   m_Component:
   - component: {fileID: 82012844}
   m_Layer: 0
-  m_Name: Bee_Distination_2
+  m_Name: Bee_Destination_2
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -264,7 +264,7 @@ Transform:
   m_GameObject: {fileID: 82012843}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.25, y: 2.25, z: 0}
+  m_LocalPosition: {x: 43.55, y: 2.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -347,9 +347,9 @@ GameObject:
   m_Component:
   - component: {fileID: 206647794}
   m_Layer: 0
-  m_Name: Bee_Distination_1
+  m_Name: Bee_Destination_1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -362,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 206647793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.3, y: -0.1, z: 0}
+  m_LocalPosition: {x: 48.96, y: 2.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1394,6 +1394,7 @@ MonoBehaviour:
   - {fileID: 936310405}
   - {fileID: 1176693616}
   _health: 5
+  _destinationIndex: 0
 --- !u!4 &675098231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6157071797001828374, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
@@ -2272,9 +2273,9 @@ GameObject:
   m_Component:
   - component: {fileID: 936310405}
   m_Layer: 0
-  m_Name: Bee_Distination_3
+  m_Name: Bee_Destination_3
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2287,7 +2288,7 @@ Transform:
   m_GameObject: {fileID: 936310404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.1, y: -2.8, z: 0}
+  m_LocalPosition: {x: 40.31, y: -2.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3056,9 +3057,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1176693616}
   m_Layer: 0
-  m_Name: Bee_Distination_4
+  m_Name: Bee_Destination_4
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -3071,7 +3072,7 @@ Transform:
   m_GameObject: {fileID: 1176693615}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51.8, y: 0, z: 0}
+  m_LocalPosition: {x: 49.36, y: -3.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

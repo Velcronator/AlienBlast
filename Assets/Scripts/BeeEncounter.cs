@@ -37,19 +37,21 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     IEnumerator StartMovement()
     {
-        while(true)
-        {
-            var destination = _beeDestinations[_destinationIndex];
+        TransformGrabBag grabBag = new TransformGrabBag(_beeDestinations);
 
-            while(Vector2.Distance(_bee.transform.position, destination.position) > 0.1f)
+        while (true)
+        {
+            var destination = grabBag.Grab();
+            if (destination == null)
+            {
+                Debug.LogError("Unable to choose a random destination for the Bee. Stopping Movement");
+                yield break;
+            }
+
+            while (Vector2.Distance(_bee.transform.position, destination.position) > 0.1f)
             {
                 _bee.transform.position = Vector2.MoveTowards(_bee.transform.position, destination.position, Time.deltaTime);
                 yield return null;
-            }
-            _destinationIndex++;
-            if (_destinationIndex >= _beeDestinations.Length)
-            {
-                _destinationIndex = 0;
             }
         }
     }
@@ -76,12 +78,6 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     }
     private IEnumerator SpawnNewLightning()
     {
-        //if (_activeLightnings.Count >= _lightnings.Count)
-        //{
-        //    Debug.LogError("The number of requested lightnings exceeds the total available lightnings.");
-        //    yield break;
-        //}
-
         int index = Random.Range(0, _lightnings.Count);
         var lightning = _lightnings[index];
 
@@ -127,8 +123,6 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
         _health--;
         if (_health <= 0)
         {
-            // Handle bee death
-            gameObject.SetActive(false);
             _bee.SetActive(false);
         }
     }
