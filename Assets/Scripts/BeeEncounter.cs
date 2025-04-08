@@ -14,12 +14,16 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] int _numberOfLightnings = 1;
     [SerializeField] GameObject _bee;
+    [SerializeField] Animator _beeAnimator;
     [SerializeField] Transform[] _beeDestinations;
+    [SerializeField] float _minIdleTime = 1f;
+    [SerializeField] float _maxIdleTime = 2f;
+    [SerializeField] GameObject _beeLaser;
 
     List<Transform> _activeLightnings;
     public int _health = 5;
-    public int _destinationIndex;
-
+    bool _shootStarted;
+    bool _shootFinished;
 
     private void OnValidate()
     {
@@ -33,10 +37,14 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     {
         StartCoroutine(StartLightning());
         StartCoroutine(StartMovement());
+        var wrapper = GetComponentInChildren<ShootAnimationWrapper>();
+        wrapper.OnShoot += () => _shootStarted = true;
+        wrapper.OnReload += () => _shootFinished = true;
     }
 
     IEnumerator StartMovement()
     {
+        _beeLaser.SetActive(false);
         GrabBag<Transform> grabBag = new GrabBag<Transform>(_beeDestinations);
 
         while (true)
@@ -48,11 +56,25 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
                 yield break;
             }
 
+            _beeAnimator.SetBool("Move", true);
+
             while (Vector2.Distance(_bee.transform.position, destination.position) > 0.1f)
             {
                 _bee.transform.position = Vector2.MoveTowards(_bee.transform.position, destination.position, Time.deltaTime);
                 yield return null;
             }
+
+            _beeAnimator.SetBool("Move", false);
+            yield return new WaitForSeconds(Random.Range(_minIdleTime, _maxIdleTime));
+            _beeAnimator.SetTrigger("Attack");
+
+            yield return new WaitUntil(() => _shootStarted);
+            _shootStarted = false;
+            _beeLaser.SetActive(true);
+
+            yield return new WaitUntil(() => _shootFinished);
+            _shootFinished = false;
+            _beeLaser.SetActive(false);
         }
     }
 
@@ -112,7 +134,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
             Player player = hit.GetComponent<Player>();
             if (player != null)
             {
-                player.TakeDamage(lightning.position); 
+                player.TakeDamage(lightning.position);
                 //player.TakeDamage(Vector3.zero); if you want the player to not be pushed back
             }
         }
