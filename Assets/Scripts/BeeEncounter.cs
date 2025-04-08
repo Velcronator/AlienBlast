@@ -37,7 +37,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     IEnumerator StartMovement()
     {
-        TransformGrabBag grabBag = new TransformGrabBag(_beeDestinations);
+        GrabBag<Transform> grabBag = new GrabBag<Transform>(_beeDestinations);
 
         while (true)
         {
