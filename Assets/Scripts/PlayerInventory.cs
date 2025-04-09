@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
+    public Transform ItemPoint;
+
     PlayerInput _playerInput;
     IItem EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
-    public Transform ItemPoint;
     List<IItem> _items = new List<IItem>();
     int _currentItemIndex;
 
@@ -18,10 +19,16 @@ public class PlayerInventory : MonoBehaviour
         _playerInput.actions["Previous"].performed += EquipPrevious;
 
         foreach (var item in GetComponentsInChildren<IItem>())
-        {
             Pickup(item);
-        }
     }
+
+    private void OnDestroy()
+    {
+        _playerInput.actions["Attack"].performed -= UseEquippedItem;
+        _playerInput.actions["Next"].performed -= EquipNext;
+        _playerInput.actions["Previous"].performed -= EquipPrevious;
+    }
+
 
     private void EquipPrevious(InputAction.CallbackContext context)
     {

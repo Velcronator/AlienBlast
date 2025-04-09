@@ -5,9 +5,9 @@ public class LoadLevel : MonoBehaviour
 {
     [SerializeField] string _levelName;
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (other.CompareTag("Player"))
             SceneManager.LoadScene(_levelName);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,7 +17,6 @@ public class GameManager : MonoBehaviour
 
     PlayerInputManager _playerInputManager;
     public void ToggleCinematic(bool cinematicPlaying) => CinematicPlaying = cinematicPlaying;
-
 
     void Awake()
     {
@@ -36,22 +36,27 @@ public class GameManager : MonoBehaviour
         string commaSeparatedList = PlayerPrefs.GetString("AllGameNames");
         Debug.Log(commaSeparatedList);
         AllGameNames = commaSeparatedList.Split(",").ToList();
-        AllGameNames.RemoveAll(string.IsNullOrEmpty);
+        AllGameNames.Remove("");
     }
 
     void HandleSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (arg0.name == "Menu")
-        {
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-        }
         else
         {
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
-            SaveGame(); // Save the game when the scene changes
-        }
+            var allPlayers = FindObjectsOfType<Player>();
+            foreach (var player in allPlayers)
+            {
+                var playerInput = player.GetComponent<PlayerInput>();
+                var data = GetPlayerData(playerInput.playerIndex);
+                player.Bind(data);
+            }
+            //SaveGame();
+            }
 
-    }
+        }
 
     public void SaveGame()
     {
@@ -104,13 +109,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level01");
     }
 
-    public void DeleteGame(string gameName)
+    internal void DeleteGame(string gameName)
     {
         PlayerPrefs.DeleteKey(gameName);
         AllGameNames.Remove(gameName);
-
-        Destroy(GameObject.Find(gameName));
-
         string commaSeparatedGameNames = string.Join(",", AllGameNames);
         PlayerPrefs.SetString("AllGameNames", commaSeparatedGameNames);
         PlayerPrefs.Save();
