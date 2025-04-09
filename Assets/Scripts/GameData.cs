@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 
 [Serializable]
 public class GameData
 {
-    public List<PlayerData>  PlayerDatas = new List<PlayerData>();
+    public List<PlayerData> PlayerDatas = new List<PlayerData>();
     public string GameName;
+    public string CurrentLevelName;
 }

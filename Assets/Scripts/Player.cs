@@ -1,9 +1,8 @@
 using Unity.Cinemachine;
+using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine;
-using System;
-using TMPro.EditorUtilities;
 
 public class Player : MonoBehaviour
 {
@@ -21,18 +20,20 @@ public class Player : MonoBehaviour
     [SerializeField] float _knockbackVelocity = 400;
     [SerializeField] Collider2D _duckingCollider;
     [SerializeField] Collider2D _standingCollider;
+    [SerializeField] float _groundDetectionOffset = 0.5f;
     [SerializeField] float _wallDetectionDistance = 0.5f;
     [SerializeField] int _wallCheckPoints = 5;
     [SerializeField] float _buffer = 0.1f;
 
     public bool IsGrounded;
-    public bool IsOnSnow;
     public bool IsInWater;
+    public bool IsOnSnow;
     public bool IsDucking;
     public bool IsTouchingRightWall;
     public bool IsTouchingLeftWall;
 
     Animator _animator;
+    SpriteRenderer _spriteRenderer;
     AudioSource _audioSource;
     Rigidbody2D _rb;
     PlayerInput _playerInput;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
         _rb = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
@@ -135,16 +137,22 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.IsLoading)
+            return;
+
         UpdateGrounding();
         UpdateWallTouching();
 
-        if (!GameManager.CinematicPlaying)
+        if (GameManager.CinematicPlaying == false)
         {
             UpdateMovement();
         }
 
         UpdateAnimation();
         UpdateDirection();
+
+        _playerData.Position = _rb.position;
+        _playerData.Velocity = _rb.linearVelocity;
     }
 
     private void UpdateWallTouching()
@@ -204,14 +212,9 @@ public class Player : MonoBehaviour
             _horizontal = 0;
 
         if (IsInWater)
-        {
-            _horizontal = 0; // Stop horizontal input effect
-            _rb.linearVelocity = new Vector2(0, vertical); // Halt horizontal movement
-        }
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, vertical);
         else
-        {
             _rb.linearVelocity = new Vector2(_horizontal, vertical);
-        }
 
     }
 
@@ -271,7 +274,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void CollectCoin()
+    public void AddPoint()
     {
         Coins++;
         _audioSource.PlayOneShot(_coinSfx);
@@ -281,6 +284,12 @@ public class Player : MonoBehaviour
     public void Bind(PlayerData playerData)
     {
         _playerData = playerData;
+    }
+
+    public void RestorePositionAndVelocity()
+    {
+        _rb.position = _playerData.Position;
+        _rb.linearVelocity = _playerData.Velocity;
     }
 
     public void TakeDamage(Vector2 hitNormal)

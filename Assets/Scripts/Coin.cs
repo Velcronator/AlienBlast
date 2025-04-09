@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour
         var player = collision.GetComponent<Player>();
         if (player)
         {
-            player.CollectCoin();
+            player.AddPoint();
             gameObject.SetActive(false);
         }
     }

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static bool CinematicPlaying { get; private set; }
+    public static bool IsLoading { get; private set; }
 
     public List<string> AllGameNames = new List<string>();
 
@@ -45,21 +46,29 @@ public class GameManager : MonoBehaviour
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
         else
         {
+            _gameData.CurrentLevelName = arg0.name;
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
-            var allPlayers = FindObjectsOfType<Player>();
+            var allPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None);
             foreach (var player in allPlayers)
             {
                 var playerInput = player.GetComponent<PlayerInput>();
                 var data = GetPlayerData(playerInput.playerIndex);
                 player.Bind(data);
+                if (GameManager.IsLoading)
+                {
+                    player.RestorePositionAndVelocity();
+                    IsLoading = false;
+                }
             }
             //SaveGame();
-            }
-
         }
+    }
 
     public void SaveGame()
     {
+        if (string.IsNullOrWhiteSpace(_gameData.GameName))
+            _gameData.GameName = "Game " + AllGameNames.Count;
+
         string text = JsonUtility.ToJson(_gameData);
         Debug.Log(text);
 
@@ -77,9 +86,12 @@ public class GameManager : MonoBehaviour
 
     public void LoadGame(string gameName)
     {
+        IsLoading = true;
         string text = PlayerPrefs.GetString(gameName);
         _gameData = JsonUtility.FromJson<GameData>(text);
-        SceneManager.LoadScene("Level01");
+        if (String.IsNullOrWhiteSpace(_gameData.CurrentLevelName))
+            _gameData.CurrentLevelName = "Level01";
+        SceneManager.LoadScene(_gameData.CurrentLevelName);
     }
 
     void HandlePlayerJoined(PlayerInput playerInput)
