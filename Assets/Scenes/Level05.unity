@@ -1711,7 +1711,7 @@ MonoBehaviour:
   _maxIdleTime: 1.5
   _beeLaser: {fileID: 204106896}
   _maxHealth: 50
-  _water: {fileID: 927793356}
+  _water: {fileID: 927793362}
   _floodGroundColliders:
   - {fileID: 692862265}
   - {fileID: 163148397}
@@ -2663,34 +2663,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water
       objectReference: {fileID: 0}
-    - target: {fileID: 2641315511299042595, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_Size.x
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: 2641315511299042595, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3615485404035670501, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3973144983334461037, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_Size.x
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: 5873174263786023118, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: 5873174263786023118, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5945826260703579897, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
-      propertyPath: m_Size.x
-      value: 48
-      objectReference: {fileID: 0}
     - target: {fileID: 6157071797001828374, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
       propertyPath: m_LocalPosition.x
       value: 34
@@ -2741,6 +2713,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6157071797001828374, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
   m_PrefabInstance: {fileID: 927793355}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &927793362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6628140305487399188, guid: 28532ae0a66a0b84ba2156ec07cacc54, type: 3}
+  m_PrefabInstance: {fileID: 927793355}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0cf9f625f0ae6479028bdc57ac9722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &935710181
 PrefabInstance:
   m_ObjectHideFlags: 0

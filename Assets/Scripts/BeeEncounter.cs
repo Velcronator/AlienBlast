@@ -21,7 +21,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] float _maxIdleTime = 2f;
     [SerializeField] GameObject _beeLaser;
     [SerializeField] int _maxHealth = 50;
-    [SerializeField] Transform _water;
+    [SerializeField] Water _water;
     [SerializeField] Collider2D[] _floodGroundColliders;
 
     List<Transform> _activeLightnings;
@@ -173,7 +173,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     // Update the ToggleFlood method
     IEnumerator ToggleFlood(bool enableFlood)
     {
-        float initialWaterY = _water.position.y;
+        float initialWaterY = _water.transform.position.y;
         float targetWaterY = enableFlood ? initialWaterY + 1 : initialWaterY - 1;
         float duration = 1f;
         float elapsedTime = 0f;
@@ -190,6 +190,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
         {
             collider.enabled = !enableFlood;
         }
+        _water.SetSpeed(enableFlood ? 5f : 0);
     }
 
     // Debugging stuff

@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System;
+using TMPro.EditorUtilities;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] float _jumpDuration = 0.5f;
     [SerializeField] Sprite _jumpSprite;
     [SerializeField] LayerMask _layerMask;
+    [SerializeField] LayerMask _waterLayerMask;
     [SerializeField] float _footOffset = 0.5f;
     [SerializeField] float _groundAcceleration = 10;
     [SerializeField] float _snowAcceleration = 1;
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
 
     public bool IsGrounded;
     public bool IsOnSnow;
+    public bool IsInWater;
     public bool IsDucking;
     public bool IsTouchingRightWall;
     public bool IsTouchingLeftWall;
@@ -200,20 +203,30 @@ public class Player : MonoBehaviour
         if (desiredHorizontal < 0 && IsTouchingLeftWall)
             _horizontal = 0;
 
-        _rb.linearVelocity = new Vector2(_horizontal, vertical);
+        if (IsInWater)
+        {
+            _horizontal = 0; // Stop horizontal input effect
+            _rb.linearVelocity = new Vector2(0, vertical); // Halt horizontal movement
+        }
+        else
+        {
+            _rb.linearVelocity = new Vector2(_horizontal, vertical);
+        }
+
     }
 
     void UpdateGrounding()
     {
         IsGrounded = false;
         IsOnSnow = false;
+        IsInWater = false;
 
         foreach (var point in GetGroundCheckPoints())
         {
             CheckGrounding(point);
         }
 
-        if (IsGrounded && _rb.linearVelocity.y <= 0)
+        if ((IsGrounded || IsInWater) && _rb.linearVelocity.y <= 0)
             _jumpsRemaining = 2;
     }
 
@@ -230,6 +243,9 @@ public class Player : MonoBehaviour
         {
             return;
         }
+
+        var water = Physics2D.OverlapPoint(origin, _waterLayerMask);
+        if (water != null) IsInWater = true;
 
         IsGrounded = true;
         IsOnSnow = hit.collider.CompareTag("Snow");
