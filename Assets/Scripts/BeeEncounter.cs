@@ -22,6 +22,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] GameObject _beeLaser;
     [SerializeField] int _maxHealth = 50;
     [SerializeField] Transform _water;
+    [SerializeField] Collider2D[] _floodGroundColliders;
 
     List<Transform> _activeLightnings;
     int _currentHealth = 50;
@@ -151,13 +152,14 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
         {
             StartCoroutine(ToggleFlood(true));
         }
+
         if (_currentHealth <= 0)
         {
             StopAllCoroutines();
             StartCoroutine(ToggleFlood(false));
             _beeAnimator.SetBool("Dead", true);
             _beeRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
-            foreach (var collider in GetComponentsInChildren<Collider2D>())
+            foreach (var collider in _bee.GetComponentsInChildren<Collider2D>())
             {
                 collider.gameObject.layer = LayerMask.NameToLayer("Dead");
             }
@@ -168,11 +170,26 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
         }
     }
 
+    // Update the ToggleFlood method
     IEnumerator ToggleFlood(bool enableFlood)
     {
-        var targetWaterY = enableFlood ? _water.position.y + 1 : _water.position.y - 1;
-        _water.transform.position = new Vector3(_water.position.x, targetWaterY, _water.position.z);
-        yield return null;
+        float initialWaterY = _water.position.y;
+        float targetWaterY = enableFlood ? initialWaterY + 1 : initialWaterY - 1;
+        float duration = 1f;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / duration;
+            float y = Mathf.Lerp(initialWaterY, targetWaterY, progress);
+            var destination = new Vector3(_water.transform.position.x, y, _water.transform.position.z);
+            _water.transform.position = destination;
+            yield return null;
+        }
+        foreach (var collider in _floodGroundColliders)
+        {
+            collider.enabled = !enableFlood;
+        }
     }
 
     // Debugging stuff
