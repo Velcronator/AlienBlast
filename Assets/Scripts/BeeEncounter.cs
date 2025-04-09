@@ -20,9 +20,11 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
     [SerializeField] float _minIdleTime = 1f;
     [SerializeField] float _maxIdleTime = 2f;
     [SerializeField] GameObject _beeLaser;
+    [SerializeField] int _maxHealth = 50;
+    [SerializeField] Transform _water;
 
     List<Transform> _activeLightnings;
-    public int _health = 5;
+    int _currentHealth = 50;
     bool _shootStarted;
     bool _shootFinished;
 
@@ -36,6 +38,7 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     void OnEnable()
     {
+        _currentHealth = _maxHealth;
         StartCoroutine(StartLightning());
         StartCoroutine(StartMovement());
         var wrapper = GetComponentInChildren<ShootAnimationWrapper>();
@@ -143,10 +146,15 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
 
     public void TakeDamage()
     {
-        _health--;
-        if (_health <= 0)
+        _currentHealth--;
+        if (_currentHealth == _maxHealth / 2)
+        {
+            StartCoroutine(ToggleFlood(true));
+        }
+        if (_currentHealth <= 0)
         {
             StopAllCoroutines();
+            StartCoroutine(ToggleFlood(false));
             _beeAnimator.SetBool("Dead", true);
             _beeRigidbody2D.bodyType = RigidbodyType2D.Dynamic;
             foreach (var collider in GetComponentsInChildren<Collider2D>())
@@ -159,4 +167,34 @@ public class BeeEncounter : MonoBehaviour, ITakeDamage
             _beeAnimator.SetTrigger("Hit");
         }
     }
+
+    IEnumerator ToggleFlood(bool enableFlood)
+    {
+        var targetWaterY = enableFlood ? _water.position.y + 1 : _water.position.y - 1;
+        _water.transform.position = new Vector3(_water.position.x, targetWaterY, _water.position.z);
+        yield return null;
+    }
+
+    // Debugging stuff
+    [ContextMenu(nameof(HalfHealth))]
+    void HalfHealth()
+    {
+        _currentHealth = _maxHealth / 2;
+        _currentHealth++;
+        TakeDamage();
+    }
+
+    [ContextMenu(nameof(FullHealth))]
+    void FullHealth()
+    {
+        _currentHealth = _maxHealth;
+    }
+
+    [ContextMenu(nameof(Kill))]
+    void Kill()
+    {
+        _currentHealth = 1;
+        TakeDamage();
+    }
+
 }
