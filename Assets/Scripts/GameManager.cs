@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -49,14 +50,15 @@ public class GameManager : MonoBehaviour
             _gameData.CurrentLevelName = arg0.name;
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
 
-            var levelData = _gameData.LevelDatas.FirstOrDefault(t=> t.LevelName == arg0.name);
+            var levelData = _gameData.LevelDatas.FirstOrDefault(t => t.LevelName == arg0.name);
             if (levelData == null)
             {
                 levelData = new LevelData() { LevelName = arg0.name };
                 _gameData.LevelDatas.Add(levelData);
             }
 
-            BindCoins(levelData);
+            Bind<Coin, CoinData>(levelData.CoinDatas);
+            //BindCoins(levelData);
             BindLaserSwitches(levelData);
 
             var allPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None);
@@ -73,7 +75,24 @@ public class GameManager : MonoBehaviour
             }
             //SaveGame();
         }
+
     }
+
+    void Bind<T, D>(List<D> datas) where T : MonoBehaviour, IBind<D> where D : INamed, new()
+    {
+        var instances = FindObjectsByType<T>(FindObjectsSortMode.None);
+        foreach (var instance in instances)
+        {
+            var data = datas.FirstOrDefault(t => t.Name == instance.name);
+            if (data == null)
+            {
+                data = new D() { Name = instance.name };
+                datas.Add(data);
+            }
+            instance.Bind(data);
+        }
+    }
+
 
     private void BindCoins(LevelData levelData)
     {
@@ -92,18 +111,16 @@ public class GameManager : MonoBehaviour
 
     private void BindLaserSwitches(LevelData levelData)
     {
+        var allLaserSwitches = FindObjectsByType<LaserSwitch>(FindObjectsSortMode.None);
+        foreach (var laserSwitch in allLaserSwitches)
         {
-            var allLaserSwitches = FindObjectsByType<LaserSwitch>(FindObjectsSortMode.None);
-            foreach (var laserSwitch in allLaserSwitches)
+            var data = levelData.LaserSwitchDatas.FirstOrDefault(t => t.Name == laserSwitch.name);
+            if (data == null)
             {
-                var data = levelData.LaserSwitchDatas.FirstOrDefault(t => t.Name == laserSwitch.name);
-                if (data == null)
-                {
-                    data = new LaserSwitchData() { IsOn = false, Name = laserSwitch.name };
-                    levelData.LaserSwitchDatas.Add(data);
-                }
-                laserSwitch.Bind(data);
+                data = new LaserSwitchData() { IsOn = false, Name = laserSwitch.name };
+                levelData.LaserSwitchDatas.Add(data);
             }
+            laserSwitch.Bind(data);
         }
     }
 
@@ -133,7 +150,7 @@ public class GameManager : MonoBehaviour
         string text = PlayerPrefs.GetString(gameName);
         _gameData = JsonUtility.FromJson<GameData>(text);
         if (String.IsNullOrWhiteSpace(_gameData.CurrentLevelName))
-            _gameData.CurrentLevelName = "Level01";
+            _gameData.CurrentLevelName = "Level 1";
         SceneManager.LoadScene(_gameData.CurrentLevelName);
     }
 
@@ -161,7 +178,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("NewGame Called");
         _gameData = new GameData();
         _gameData.GameName = DateTime.Now.ToString("G");
-        SceneManager.LoadScene("Level01");
+        SceneManager.LoadScene("Level 1");
     }
 
     internal void DeleteGame(string gameName)
