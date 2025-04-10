@@ -58,8 +58,9 @@ public class GameManager : MonoBehaviour
             }
 
             Bind<Coin, CoinData>(levelData.CoinDatas);
+            Bind<LaserSwitch, LaserSwitchData>(levelData.LaserSwitchDatas);
             //BindCoins(levelData);
-            BindLaserSwitches(levelData);
+            //BindLaserSwitches(levelData);
 
             var allPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None);
             foreach (var player in allPlayers)

@@ -36,10 +36,10 @@ public class CoinData : INamed
 }
 
 [Serializable]
-public class LaserSwitchData
+public class LaserSwitchData: INamed
 {
     public bool IsOn;
-    public string Name;
+    [field: SerializeField] public string Name { get; set; }
 }
 
 public interface INamed { string Name { get; set; } }
