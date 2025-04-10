@@ -10,7 +10,14 @@ public class LaserSwitch : MonoBehaviour
     [SerializeField] UnityEvent _off;
 
     SpriteRenderer _spriteRenderer;
-    bool _isOn;
+    
+    LaserSwitchData _data;
+
+    public void Bind(LaserSwitchData data)
+    {
+        _data = data;
+        UpdateSwitchState();
+    }
 
     void Awake()
     {
@@ -32,21 +39,33 @@ public class LaserSwitch : MonoBehaviour
 
     void TurnOff()
     {
-        if (_isOn)
+        if (_data.IsOn)
         {
-            _isOn = false;
-            _off.Invoke();
-            _spriteRenderer.sprite = _left;
+            _data.IsOn = false;
+            UpdateSwitchState();
         }
     }
 
     void TurnOn()
     {
-        if (!_isOn)
+        if (!_data.IsOn)
         {
-            _isOn = true;
-            _spriteRenderer.sprite = _right;
+            _data.IsOn = true;
+            UpdateSwitchState();
+        }
+    }
+
+    void UpdateSwitchState()
+    {
+        if (_data.IsOn)
+        {
             _on.Invoke();
+            _spriteRenderer.sprite = _right;
+        }
+        else
+        {
+            _off.Invoke();
+            _spriteRenderer.sprite = _left;
         }
     }
 }

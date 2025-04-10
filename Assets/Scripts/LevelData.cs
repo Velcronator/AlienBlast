@@ -6,4 +6,5 @@ public class LevelData
 {
     public string LevelName;
     public List<CoinData> CoinDatas = new List<CoinData>();
+    public List<LaserSwitchData> LaserSwitchDatas = new List<LaserSwitchData>();
 }
