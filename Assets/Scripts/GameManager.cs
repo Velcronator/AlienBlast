@@ -59,8 +59,7 @@ public class GameManager : MonoBehaviour
 
             Bind<Coin, CoinData>(levelData.CoinDatas);
             Bind<LaserSwitch, LaserSwitchData>(levelData.LaserSwitchDatas);
-            //BindCoins(levelData);
-            //BindLaserSwitches(levelData);
+            Bind<PlayerInventory, PlayerData>(_gameData.PlayerDatas);
 
             var allPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None);
             foreach (var player in allPlayers)
@@ -94,37 +93,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    private void BindCoins(LevelData levelData)
-    {
-        var allCoins = FindObjectsByType<Coin>(FindObjectsSortMode.None);
-        foreach (var coin in allCoins)
-        {
-            var data = levelData.CoinDatas.FirstOrDefault(t => t.Name == coin.name);
-            if (data == null)
-            {
-                data = new CoinData() { IsCollected = false, Name = coin.name };
-                levelData.CoinDatas.Add(data);
-            }
-            coin.Bind(data);
-        }
-    }
-
-    private void BindLaserSwitches(LevelData levelData)
-    {
-        var allLaserSwitches = FindObjectsByType<LaserSwitch>(FindObjectsSortMode.None);
-        foreach (var laserSwitch in allLaserSwitches)
-        {
-            var data = levelData.LaserSwitchDatas.FirstOrDefault(t => t.Name == laserSwitch.name);
-            if (data == null)
-            {
-                data = new LaserSwitchData() { IsOn = false, Name = laserSwitch.name };
-                levelData.LaserSwitchDatas.Add(data);
-            }
-            laserSwitch.Bind(data);
-        }
-    }
-
     public void SaveGame()
     {
         if (string.IsNullOrWhiteSpace(_gameData.GameName))
@@ -151,7 +119,7 @@ public class GameManager : MonoBehaviour
         string text = PlayerPrefs.GetString(gameName);
         _gameData = JsonUtility.FromJson<GameData>(text);
         if (String.IsNullOrWhiteSpace(_gameData.CurrentLevelName))
-            _gameData.CurrentLevelName = "Level 1";
+            _gameData.CurrentLevelName = "Level01";
         SceneManager.LoadScene(_gameData.CurrentLevelName);
     }
 
@@ -179,7 +147,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("NewGame Called");
         _gameData = new GameData();
         _gameData.GameName = DateTime.Now.ToString("G");
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Level01");
     }
 
     internal void DeleteGame(string gameName)
