@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Blaster : MonoBehaviour, IItem
+public class Blaster : Item
 {
     [SerializeField] Transform _blasterShotSpawnPoint;
 
@@ -17,7 +17,7 @@ public class Blaster : MonoBehaviour, IItem
         shot.Launch(_player.Direction, _blasterShotSpawnPoint.position);
     }
 
-    public void Use()
+    public override void Use()
     {
         if (GameManager.CinematicPlaying == true) return;
         Attack();

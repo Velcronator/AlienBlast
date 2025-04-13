@@ -3763,6 +3763,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerInput and Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5154137509899959997, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
+      propertyPath: _allItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5154137509899959997, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
+      propertyPath: '_allItems.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4926919415877934532, guid: 6b5ac56936835c54e9bb5c207949b6fd, type: 3}
     - target: {fileID: 8205685544923754628, guid: c0c10c58f1b8b074c84e4afce197cbb5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

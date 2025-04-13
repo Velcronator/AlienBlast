@@ -7,8 +7,8 @@ public class PlayerInventory : MonoBehaviour, IBind<PlayerData>
     public Transform ItemPoint;
 
     PlayerInput _playerInput;
-    IItem EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
-    List<IItem> _items = new List<IItem>();
+    Item EquippedItem => _items.Count >= _currentItemIndex ? _items[_currentItemIndex] : null;
+    List<Item> _items = new List<Item>();
     int _currentItemIndex;
     PlayerData _data;
 
@@ -19,7 +19,7 @@ public class PlayerInventory : MonoBehaviour, IBind<PlayerData>
         _playerInput.actions["Next"].performed += EquipNext;
         _playerInput.actions["Previous"].performed += EquipPrevious;
 
-        foreach (var item in GetComponentsInChildren<IItem>())
+        foreach (var item in GetComponentsInChildren<Item>())
             Pickup(item, false);
     }
 
@@ -61,7 +61,7 @@ public class PlayerInventory : MonoBehaviour, IBind<PlayerData>
             EquippedItem.Use();
     }
 
-    public void Pickup(IItem item, bool persist = true)
+    public void Pickup(Item item, bool isNew = false)
     {
         item.transform.SetParent(ItemPoint);
         item.transform.localPosition = Vector3.zero;
@@ -73,7 +73,7 @@ public class PlayerInventory : MonoBehaviour, IBind<PlayerData>
         if (collider != null)
             collider.enabled = false;
 
-        if (persist && _data.Items.Contains(item.name) == false)
+        if (isNew && _data.Items.Contains(item.name) == false)
             _data.Items.Add(item.name);
     }
 
@@ -83,8 +83,14 @@ public class PlayerInventory : MonoBehaviour, IBind<PlayerData>
         foreach (var itemName in _data.Items)
         {
             var itemGameObject = GameObject.Find(itemName);
-            if(itemGameObject != null && itemGameObject.TryGetComponent<IItem>(out var item))
+            if (itemGameObject != null && itemGameObject.TryGetComponent<Item>(out var item))
                 Pickup(item);
+            else
+            {
+                item = GameManager.Instance.GetItem(itemName);
+                if (item != null)
+                    Pickup(item);
+            }
         }
     }
 }

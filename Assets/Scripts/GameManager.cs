@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level01");
     }
 
-    internal void DeleteGame(string gameName)
+    public void DeleteGame(string gameName)
     {
         PlayerPrefs.DeleteKey(gameName);
         AllGameNames.Remove(gameName);
@@ -158,4 +158,20 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("AllGameNames", commaSeparatedGameNames);
         PlayerPrefs.Save();
     }
+
+    internal Item GetItem(string itemName)
+    {
+        string prefabName = itemName.Substring(0, itemName.IndexOf("_"));
+        var prefab = _allItems.FirstOrDefault(t => t.name == prefabName);
+        if (prefab == null)
+        {
+            Debug.LogError($"Unable to find item {itemName}");
+            return null;
+        }
+        var newInstance = Instantiate(prefab);
+        newInstance.name = prefabName;
+        return newInstance;
+    }
+
+    public List<Item> _allItems;
 }
