@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2d9df356bcccd4b93af7e0f8bf5695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHorizontalSpeed: 5
-  _jumpVelocity: 5
+  _maxHorizontalSpeed: 3.5
+  _jumpVelocity: 3.5
   _jumpDuration: 0.5
   _jumpSprite: {fileID: -6961841436348922279, guid: 07661ded9a2791d4e93de3ca231dc46e, type: 3}
   _layerMask:
@@ -362,12 +362,13 @@ MonoBehaviour:
   _knockbackVelocity: 200
   _duckingCollider: {fileID: 7315109346963364074}
   _standingCollider: {fileID: 1681111857056542560}
+  _groundDetectionOffset: 0.5
   _wallDetectionDistance: 0.5
   _wallCheckPoints: 5
   _buffer: 0.1
   IsGrounded: 0
-  IsOnSnow: 0
   IsInWater: 0
+  IsOnSnow: 0
   IsDucking: 0
   IsTouchingRightWall: 0
   IsTouchingLeftWall: 0
