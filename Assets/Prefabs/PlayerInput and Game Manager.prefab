@@ -94,6 +94,9 @@ MonoBehaviour:
   _gameData:
     PlayerDatas: []
     GameName: 
+    CurrentLevelName: 
+    LevelDatas: []
+  _allItems: []
 --- !u!114 &2349496753212056764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,3 +111,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _blasterShotPrefab: {fileID: 4294180677684561684, guid: 3f9d9bd60feb2b249869c4c2800be554, type: 3}
   _blasterImpactExplosionPrefab: {fileID: 2715717508130380276, guid: 1d82c2e25fed8fc458376d6c6e0ab0ac, type: 3}
+  _catBombPrefab: {fileID: 3547058121704957508, guid: c2d2dc5bcd182d94490c88b1896807fa, type: 3}
+  _spikePrefab: {fileID: 479340141434791871, guid: 3e69b3c1d9a7893499134ef68a7cda75, type: 3}

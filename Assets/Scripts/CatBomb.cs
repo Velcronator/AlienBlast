@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class CatBomb : MonoBehaviour
 {
@@ -6,6 +8,7 @@ public class CatBomb : MonoBehaviour
 
     Rigidbody2D _rb;
     Animator _animator;
+    private ObjectPool<CatBomb> _pool;
 
     void Awake()
     {
@@ -21,5 +24,10 @@ public class CatBomb : MonoBehaviour
         _rb.simulated = true;
         _rb.AddForce(direction * _forceAmount);
         _animator.enabled = true;
+    }
+
+    public void SetPool(ObjectPool<CatBomb> catBombPool)
+    {
+        _pool = catBombPool;
     }
 }

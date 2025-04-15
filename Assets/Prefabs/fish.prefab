@@ -358,6 +358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7197896711716325537}
   - component: {fileID: 1407934970495894777}
+  - component: {fileID: 7370777443924085159}
   m_Layer: 0
   m_Name: fish
   m_TagString: Untagged
@@ -398,12 +399,31 @@ MonoBehaviour:
   m_LoopMode: 1
   m_Method: 0
   m_Duration: 20
-  m_MaxSpeed: 7.6506143
+  m_MaxSpeed: 8.223749
   m_EasingMode: 0
   m_AlignmentMode: 1
   m_ObjectForwardAxis: 0
   m_ObjectUpAxis: 5
   m_StartOffset: 0
+--- !u!114 &7370777443924085159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3024491656241609522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612e501a2ea6e2348b440ff5d5b86e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _splineAnimate: {fileID: 1407934970495894777}
+  _animator: {fileID: 862320295505390836}
+  _splineAttackPoints: {fileID: 0}
+  _spikeCount: 5
+  _spread: 15
+  _origin: 90
+  _fireSpeed: 10
 --- !u!1 &3607303067729236574
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,6 +526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3980898394692363129}
   - component: {fileID: 862320295505390836}
+  - component: {fileID: 1927403226710986923}
   m_Layer: 0
   m_Name: base
   m_TagString: Untagged
@@ -552,6 +573,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1927403226710986923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3993915808771137776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee49811146c6fe4ebcaae145ff5b62c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4032276008899429343
 GameObject:
   m_ObjectHideFlags: 0
