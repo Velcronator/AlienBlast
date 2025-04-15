@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Cat : MonoBehaviour
 {
-    [SerializeField] CatBomb _catBombPrefab;
     [SerializeField] Transform _firePoint;
 
     CatBomb _catBomb;
@@ -18,7 +17,11 @@ public class Cat : MonoBehaviour
     void SpawnCatBomb()
     {
         if (_catBomb == null)
-            _catBomb = Instantiate(_catBombPrefab, _firePoint);
+        {
+            _catBomb = PoolManager.Instance.GetCatBomb();
+            _catBomb.transform.SetParent(_firePoint);
+            _catBomb.transform.localPosition = Vector3.zero;
+        }
     }
 
     void ShootCatBomb()

@@ -33,15 +33,19 @@ public class PoolManager : MonoBehaviour
             t => t.gameObject.SetActive(true),
             t => t.gameObject.SetActive(false));
 
-        _catBombPool = new ObjectPool<CatBomb>(
+        // CatBomb Pool
+        ObjectPool<CatBomb> catBombPool = null;
+        catBombPool = new ObjectPool<CatBomb>(
             () =>
             {
-                CatBomb shot = Instantiate(_catBombPrefab);
-                shot.SetPool(_catBombPool);
-                return shot;
+                var bomb = Instantiate(_catBombPrefab);
+                bomb.SetPool(catBombPool);
+                return bomb;
             },
             t => t.gameObject.SetActive(true),
-            t => t.gameObject.SetActive(false));
+            t => t.gameObject.SetActive(false)
+        );
+        _catBombPool = catBombPool;
 
         _spikePool = new ObjectPool<ReturnToPool>(
             () =>
