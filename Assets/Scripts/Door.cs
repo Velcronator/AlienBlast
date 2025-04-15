@@ -7,8 +7,6 @@ public class Door : MonoBehaviour
     [SerializeField] GameObject _close1;
     [SerializeField] GameObject _close2;
 
-    
-
     [ContextMenu(nameof(Open))]
     public void Open()
     {
@@ -28,5 +26,32 @@ public class Door : MonoBehaviour
         _close1.SetActive(true);
         _close2.SetActive(true);
         Debug.Log("Door closed!");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var playerInteractionController = collision.GetComponent<PlayerInteractionController>();
+        if (playerInteractionController)
+        {
+            playerInteractionController.Add(this);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        var playerInteractionController = collision.GetComponent<PlayerInteractionController>();
+        if (playerInteractionController)
+        {
+            playerInteractionController.Remove(this);
+        }
+    }
+
+    public void Interact(PlayerInteractionController playerInteractionController)
+    {
+        var destination = Vector2.Distance(playerInteractionController.transform.position, _open1.transform.position) >
+                        Vector2.Distance(playerInteractionController.transform.position, _open2.transform.position)
+            ? _open1.transform.position
+            : _open2.transform.position;
+        playerInteractionController.transform.position = destination;
     }
 }
